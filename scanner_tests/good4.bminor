@@ -1,0 +1,16 @@
+// characters
+
+char
+char =
+char = 'a'
+
+char
+char=
+char='a'
+
+mychar : char
+mychar : char = 'a'
+mychar:char='a'
+
+'\n'
+'a''\n''a'

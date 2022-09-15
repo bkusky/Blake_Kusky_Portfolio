@@ -1,0 +1,90 @@
+// as much bminor as I can find
+
+printarray: function void ( a: array [] integer, size: integer ) = {
+	i: integer;
+	for( i=0;i<size;i++) {
+		print a[i], "\n";
+	}
+}
+
+puts: function void ( s: string );
+
+main: function integer () = {
+	puts("hello world");
+}
+
+main: function integer ( argc: integer, argv: array [] string ) = {
+        puts("hello world");
+}
+
+
+/* A C-style comment */
+a=5; // A C++ style comment
+
+x: integer;
+y: integer = 123;
+b: boolean = false;
+c: char    = 'q';
+s: string  = "hello bminor\n";
+
+a: array [5] integer;
+
+a: array [5] integer = {1,2,3,4,5};
+
+a: auto = 10;
+b: auto = "hello";
+c: auto = a < 100;
+
+b: boolean;
+x: integer = 3;
+y: integer = 5;
+b = x<y;     // ok: the expression x<y is boolean
+
+f: integer = 0;
+if(f==0)    // ok: f==0 is a boolean expression
+
+c: char = 'a';
+if(c=='a') // ok: c and 'a' are both chars
+
+// An arithmetic expression statement.
+y = m*x + b;
+
+// A return statement.
+return (f-32)*5/9;
+
+// An if-else statement.
+if( temp>100 ) {
+    print "It's really hot!\n";
+} else if( temp>70 ) {
+    print "It's pretty warm.\n";
+} else {
+    print "It's not too bad.\n";
+}
+
+// A for loop statement.
+for( i=0; i<100; i++ ) {
+    print i;0
+}
+
+print "The temperature is: ", temp, " degrees\n";
+
+square: function integer ( x: integer ) = {
+	return x^2;
+}
+
+printarray: function void ( a: array [] integer, size: integer ) = {
+	i: integer;
+	for( i=0;i<size;i++) {
+		print a[i], "\n";
+	}
+}
+
+puts: function void ( s: string );
+
+main: function integer () = {
+	puts("hello world");
+}
+
+main: function integer ( argc: integer, argv: array [] string ) = {
+        puts("hello world");
+}

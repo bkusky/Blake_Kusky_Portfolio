@@ -1,0 +1,17 @@
+// comparisons and if
+if ( a == b ) {
+	if ( b != c ) {
+		if ( c < d ) {
+			if ( d <= e ) {
+				if ( e > f ) {
+					g = f && e
+					h = d || a
+				} else if ( g == h ) {
+					q = h || g && b
+				} else {
+					return
+				}
+			}
+		}	
+	}
+}
