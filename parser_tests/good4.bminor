@@ -1,0 +1,17 @@
+// globals and prototypes
+
+x: integer;
+y: integer = 123;
+b: boolean = false;
+c: char    = 'q';
+s: string  = "hello bminor\n";
+
+
+main: function integer ( argc: integer, argv: array [] string ) = {
+	x: integer;
+	y: integer = 123;
+	b: boolean = false;
+	c: char    = 'q';
+	s: string  = "hello bminor\n";
+
+}

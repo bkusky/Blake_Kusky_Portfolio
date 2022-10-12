@@ -1,0 +1,9 @@
+a: auto = 10;
+b: auto = "hello";
+c: auto = a < 100;
+
+x: integer;
+y: integer = 123;
+b: boolean = false;
+c: char    = 'q';
+s: string  = "hello bminor\n";

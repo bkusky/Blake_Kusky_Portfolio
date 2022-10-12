@@ -1,0 +1,10 @@
+// unmatched brace
+
+
+main: function integer ( argc: integer, argv: array [] string ) = {
+        puts("hello world");
+
+
+		a: auto = 10;
+		b: auto = "hello";
+		c: auto = a < 100;

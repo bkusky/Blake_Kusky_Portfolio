@@ -23,12 +23,12 @@ void			{ return TOKEN_VOID; }
 while			{ return TOKEN_WHILE; }
 
 	/* Comments */
-\/\*([^*]|(\*[^\/]))*\*?\*\/ 	{ return TOKEN_MCOM; }
-\/\/(.*)\n 						{ return TOKEN_COM; }
+\/\*([^*]|(\*[^\/]))*\*?\*\/ 	
+\/\/(.*)\n 						
 
 
 	/* Numbers */
-(\+|-)?{DIGIT}+	{ return TOKEN_NUMBER; }
+{DIGIT}+	{ return TOKEN_NUMBER; }
 
 	/* Characters */	
 :					{ return TOKEN_COLON; }
@@ -55,12 +55,12 @@ while			{ return TOKEN_WHILE; }
 &&				{ return TOKEN_AND; }
 \|\|			{ return TOKEN_OR; }
 =				{ return TOKEN_ASSIGN; }
-\{				{ return TOKEN_OPEN_CURLY; }
-\}				{ return TOKEN_CLOSED_CURLY; }
-\[				{ return TOKEN_OPEN_HARD; }
-\]				{ return TOKEN_CLOSED_HARD; }
-\(				{ return TOKEN_OPEN_PAREN; }
-\)				{ return TOKEN_CLOSED_PAREN; }
+\{				{ return TOKEN_LBRACE; }
+\}				{ return TOKEN_RBRACE; }
+\[				{ return TOKEN_LBRACKET; }
+\]				{ return TOKEN_RBRACKET; }
+\(				{ return TOKEN_LPAREN; }
+\)				{ return TOKEN_RPAREN; }
 \? 				{ return TOKEN_QUESTION; }
 
 	/* Identifiers */

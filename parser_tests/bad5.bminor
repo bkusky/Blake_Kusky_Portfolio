@@ -1,0 +1,9 @@
+//  bad loop
+
+main: function integer ( argc: integer, argv: array [] string ) = {
+
+	for( i=0;i<size) {
+		print a[i], "\n";
+	}
+
+}

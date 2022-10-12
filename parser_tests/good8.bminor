@@ -1,0 +1,11 @@
+// edge cases
+
+
+main: function integer ( argc: integer, argv: array [] string ) = {
+	print;
+	return;
+	a++++;
+
+	array1[(x=10)] = 5;
+}
+

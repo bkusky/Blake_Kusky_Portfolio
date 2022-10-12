@@ -1,0 +1,6 @@
+// bad array
+main: function integer ( argc: integer, argv: array [] string ) = {
+        puts("hello world");
+
+		a: array [5] integer = {};
+}
