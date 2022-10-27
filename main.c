@@ -16,12 +16,14 @@ extern int yyparse();
 
 bool run_scan = false;
 bool run_parse = false;
+bool run_print = false;
 
 int main(int argc, char **argv) {
 	// read input
 	// check args
 	if (argc != 3) {
 		printf("incorrect number of arguments\n");
+		usage();
 		exit(1);
 	}
 	
@@ -30,8 +32,10 @@ int main(int argc, char **argv) {
 		run_scan = true;
 	} else if (!strcmp(argv[1], "-parse")){
 		run_parse = true;
+	} else if (!strcmp(argv[1], "-print")) {
+		run_print = true;
 	} else {
-		printf("incorrect arguments\n");
+		usage(1);
 		exit(1);
 	}
 	
@@ -48,18 +52,22 @@ int main(int argc, char **argv) {
 	}
 
 	if (run_parse) {
-		int p = yyparse();
-		if(p==0) {
-			printf("Parse successful!\n");
-			return 0;
-		} else if (p == -1) {
-			printf("Scan Error\n");
-			return 1;
-		} else {
-			printf("Parse failed.\n");
-			return 1;
+		int parse_result = parse_execute();
+
+		// error
+		if (parse_result < 0) { 
+			exit(1);
 		}
 	}
 
+	if (run_print) {
+		int print_result = print_execute();
+
+		// error
+		if (print_result < 0) {
+			exit(1);
+		}
+	}	
+	
 	return 0;
 }

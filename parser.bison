@@ -67,78 +67,27 @@ program		: decl_list		{ return 0; }
 			| TOKEN_ERROR	{ return -1; } 
 			;
 
-decl_list	: decl TOKEN_SEMICOLON decl_list
-			| function_def function_impl decl_list
-			| function_def TOKEN_SEMICOLON
+decl_list	: decl decl_list 
 			| /* epsilon */
 			;
 
-function_impl	: TOKEN_ASSIGN TOKEN_LBRACE multistmt TOKEN_RBRACE
-				;
-
-function_def	:  TOKEN_IDENT TOKEN_COLON TOKEN_FUNC type TOKEN_LPAREN param_list TOKEN_RPAREN
-				;
-
-block	: TOKEN_LBRACE multistmt TOKEN_RBRACE
+decl 	: def_start subdecl TOKEN_ASSIGN assign_expr TOKEN_SEMICOLON
+		| def_start subdecl TOKEN_SEMICOLON
+		| def_start TOKEN_FUNC type_function TOKEN_LPAREN param_list TOKEN_RPAREN TOKEN_ASSIGN block
+		| def_start TOKEN_FUNC type_function TOKEN_LPAREN param_list TOKEN_RPAREN TOKEN_SEMICOLON
 		;
 
-				
-multistmt 	: stmt_list
+def_start	: TOKEN_IDENT TOKEN_COLON
+			;
+
+subdecl	: multi_decl type_static
+		;
+
+multi_decl	: multi_decl TOKEN_ARRAY TOKEN_LBRACKET expr TOKEN_RBRACKET
 			| /* epsilon */
 			;
 
-
-stmt_list	: stmt stmt_list
-			| stmt
-			| expr_semi stmt_list
-			| expr_semi
-			;
-
-stmt	: decl TOKEN_SEMICOLON
-		| for_loop
-		| if_stmt
-		| stmt2
-		;
-
-expr_semi	: expr TOKEN_SEMICOLON
-			;
-
-stmt2		: TOKEN_RETURN expr_maybe TOKEN_SEMICOLON
-			| TOKEN_PRINT expr_list TOKEN_SEMICOLON
-			| block
-			;
-
-
-for_loop	: TOKEN_FOR TOKEN_LPAREN for_list TOKEN_RPAREN stmt
-			;
-
-if_stmt		: TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN stmt
-			| TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN if_m TOKEN_ELSE stmt
-			;
-
-if_m		: TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN if_m TOKEN_ELSE if_m
-			| TOKEN_FOR TOKEN_LPAREN for_list TOKEN_RPAREN if_m
-			| stmt2
-			;
-
-for_list	: expr_maybe TOKEN_SEMICOLON expr_maybe TOKEN_SEMICOLON expr_maybe
-			;
-
-decl	: TOKEN_IDENT TOKEN_COLON type
-		| TOKEN_IDENT TOKEN_COLON type TOKEN_ASSIGN expr
-		;
-
-type	: TOKEN_INT
-		| TOKEN_CHAR
-		| TOKEN_STR
-		| TOKEN_BOOL
-		| TOKEN_AUTO
-		| TOKEN_VOID
-		| TOKEN_ARRAY TOKEN_LBRACKET TOKEN_NUMBER TOKEN_RBRACKET type
-		| function_def
-		;
-
-param_list 	: param_comma
+param_list	: param_comma
 			| /* epsilon */
 			;
 
@@ -146,20 +95,82 @@ param_comma	: param TOKEN_COMMA param_comma
 			| param
 			;
 
-param	: TOKEN_IDENT TOKEN_COLON param_type
+param	: def_start param_array type_static
+		| def_start type_function
 		;
 
-param_type	: TOKEN_INT
-			| TOKEN_CHAR
+param_array	: TOKEN_ARRAY TOKEN_LBRACKET TOKEN_RBRACKET
+			| TOKEN_ARRAY TOKEN_LBRACKET TOKEN_RBRACKET param_array
+			;
+		
+
+type_function	: TOKEN_INT
+				| TOKEN_VOID
+				| TOKEN_BOOL
+				| TOKEN_STR
+				| TOKEN_CHAR
+				;
+
+type_static	: TOKEN_INT
 			| TOKEN_STR
-			| TOKEN_BOOL
 			| TOKEN_AUTO
-			| TOKEN_VOID
-			| TOKEN_ARRAY TOKEN_LBRACKET TOKEN_RBRACKET param_type
-			| TOKEN_FUNC type TOKEN_LPAREN param_list TOKEN_RPAREN
+			| TOKEN_CHAR
+			| TOKEN_BOOL
 			;
 
-expr_list	: expr_comma
+block	: TOKEN_LBRACE bunch_stmts TOKEN_RBRACE
+		;
+
+bunch_stmts	: stmt_list
+			| /* epsilon */
+			;
+
+stmt_list	: stmt
+			| expr TOKEN_SEMICOLON
+			| stmt stmt_list
+			| expr TOKEN_SEMICOLON stmt_list
+			;
+
+stmt	: decl
+		| for
+		| if
+		| stmt_
+		;
+
+stmt_	: block
+		| return
+		| print
+		;
+
+return	: TOKEN_RETURN expr_maybe TOKEN_SEMICOLON
+		;
+
+print	: TOKEN_PRINT expr_maybe TOKEN_SEMICOLON
+		;
+
+for		: TOKEN_FOR TOKEN_LPAREN for_param TOKEN_RPAREN stmt
+		;
+
+for_param	: expr_maybe TOKEN_SEMICOLON expr_maybe TOKEN_SEMICOLON expr_maybe
+			;
+
+if	: TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN if_else TOKEN_ELSE stmt
+	| TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN stmt
+	;
+
+if_else	: TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN if_else TOKEN_ELSE if_else
+		| stmt_
+		| TOKEN_FOR TOKEN_LPAREN for_param TOKEN_RPAREN if_else
+		;
+
+assign_expr	: term0
+			| multi_array
+			;
+
+multi_array	: TOKEN_LBRACE literal_list TOKEN_RBRACE
+			;
+
+expr_maybe	: expr_comma
 			| /* epsilon */
 			;
 
@@ -167,95 +178,97 @@ expr_comma	: expr TOKEN_COMMA expr_comma
 			| expr
 			;
 
-expr_maybe	: expr
-			| /* epsilon */
-
-expr	: expr TOKEN_ASSIGN term
-		| ternary
-		| term
-		;
-	
-ternary_item	: ternary
-				| term
-				;
-
-ternary	:  ternary_item TOKEN_QUESTION ternary_item TOKEN_COLON term
-		;
-
-term	: term TOKEN_OR term0
+expr	: expr_start TOKEN_ASSIGN term0
+		| TOKEN_NOT term0
 		| term0
+		| tern
 		;
 
-term0	: term0 TOKEN_AND term1
+expr_start	: TOKEN_IDENT array_index
+			;
+
+term0	: term0 TOKEN_OR term1
 		| term1
 		;
 
-term1	: term1 TOKEN_EQ term2
-		| term1 TOKEN_LT term2
-		| term1 TOKEN_LTE term2
-		| term1 TOKEN_GT term2
-		| term1 TOKEN_GTE term2
-		| term1 TOKEN_NEQ term2
+term1	: term1 TOKEN_AND term2
 		| term2
 		;
-
-term2	: term2 TOKEN_ADD term3
-		| term2 TOKEN_SUB term3
+		
+term2	: term2 TOKEN_LT term3
+		| term2 TOKEN_LTE term3
+		| term2 TOKEN_GT term3
+		| term2 TOKEN_GTE term3
+		| term2 TOKEN_EQ term3
+		| term2 TOKEN_NEQ term3
 		| term3
 		;
 
-term3	: term3 TOKEN_MULT term4
-		| term3 TOKEN_DIV term4
-		| term3 TOKEN_MOD term4
-		| term4 
+term3	: term3 TOKEN_ADD term4
+		| term3 TOKEN_SUB term4
+		| term4
 		;
 
-term4	: term4 TOKEN_EXPO term5
+term4	: term4 TOKEN_MULT term5
+		| term4 TOKEN_DIV term5
+		| term4 TOKEN_MOD term5
 		| term5
 		;
 
-term5	: term5 TOKEN_PST_FIX_INC
-		| term5 TOKEN_PST_FIX_DEC
-		| term_array
+term5	: term5 TOKEN_EXPO term6
+		| term6
 		;
 
-term_array	: TOKEN_LBRACE factor_list TOKEN_RBRACE
-			| term_paren
-			;
-		
-term_paren	: term_array_index
-			| TOKEN_LPAREN expr TOKEN_RPAREN
-			;
+term6	: term6 TOKEN_PST_FIX_INC
+		| term6 TOKEN_PST_FIX_DEC
+		| TOKEN_SUB term7
+		| term7
+		;
 
-term_array_index 	: TOKEN_IDENT TOKEN_LBRACKET expr TOKEN_RBRACKET
-					| factor
-					;
+term7	: TOKEN_LPAREN expr TOKEN_RPAREN
+		| literal
+		;
 
-factor  : TOKEN_SUB factor
-		| TOKEN_NOT factor
-		| TOKEN_NUMBER
-		| TOKEN_IDENT
+literal	: TOKEN_NUMBER
 		| TOKEN_CHAR_LIT
 		| TOKEN_STR_LIT
 		| TOKEN_TRUE
 		| TOKEN_FALSE
+		| array_lookup
 		| function_call
 		;
 
-factor_list		: factor_comma
+literal_list	: literal_comma
+				| /* epsilon */
 				;
 
-factor_comma	: factor TOKEN_COMMA factor_comma
-				| factor
-				| array_list
+literal_comma	: literal TOKEN_COMMA literal_comma
+				| literal
+				| multi_array
 				;
 
-array_list	: TOKEN_LBRACE factor_list TOKEN_RBRACE
+tern	: expr_start TOKEN_ASSIGN expr_tern TOKEN_QUESTION expr_tern TOKEN_COLON expr_tern
+		;
+
+expr_tern	: tern
+			| term0
+			| TOKEN_NOT term0
 			;
 
-function_call 	: TOKEN_IDENT TOKEN_LPAREN expr_maybe TOKEN_RPAREN
+array_lookup	: TOKEN_IDENT array_index
 				;
 
+array_index		: multi_index
+				| /* epsilon */
+				;
+
+multi_index		: TOKEN_LBRACKET expr TOKEN_RBRACKET multi_index
+				| TOKEN_LBRACKET expr TOKEN_RBRACKET
+				;
+
+function_call	: TOKEN_IDENT TOKEN_LPAREN expr_maybe TOKEN_RPAREN
+				;
+			
 
 %%
 

@@ -11,6 +11,14 @@ extern int yylex();
 extern char *yytext;
 extern int yyleng;
 
+void usage() {
+	printf("bminor <option> <sourcefile>\n");
+	printf("options:\n");
+	printf("\t-scan:	scan <sourcefile>\n");
+	printf("\t-parse:	scan --> parse <sourcefile>\n");
+	printf("\t-print:	scan --> parse --> print <sourcefile>\n");
+}
+
 void scan_execute() {
 	while (1) {
 		enum yytokentype t = yylex();
@@ -221,3 +229,21 @@ void string_clean(char * in_str) {
 	in_str[yyleng] = '\0';	
 }
 
+int parse_execute() {
+
+	int p = yyparse();
+	if(p==0) {
+		printf("Parse successful!\n");
+		return 1;
+	} else if (p == -1) {
+		printf("Scan Error\n");
+		return -1;
+	} else {
+		printf("Parse failed.\n");
+		return -1;
+	}
+}
+
+int print_execute() {
+	return 0;
+} 
