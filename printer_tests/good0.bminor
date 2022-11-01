@@ -1,0 +1,16 @@
+a: auto = 10;
+b: auto = "hello";
+c: auto = a < 100;
+
+x: integer;
+y: integer = 123;
+q: boolean;
+x: string;
+y: char;
+c: auto;
+b: boolean = false;
+c: char    = 'q';
+s: string  = "hello bminor\n";
+
+
+

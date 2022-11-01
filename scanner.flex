@@ -26,6 +26,9 @@ while			{ return TOKEN_WHILE; }
 \/\*([^*]|(\*[^\/]))*\*?\*\/ 	
 \/\/(.*)\n 						
 
+	/* EOF */
+
+<<EOF>> { return TOKEN_EOF; }
 
 	/* Numbers */
 {DIGIT}+	{ return TOKEN_NUMBER; }

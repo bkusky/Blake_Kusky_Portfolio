@@ -1,0 +1,5 @@
+// missing semicolon
+
+main: function integer ( argc: integer, argv: array [] string ) = {
+        puts("hello world")
+}

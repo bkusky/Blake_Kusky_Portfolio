@@ -1,3 +1,5 @@
+// for loops and multi array indexing
+
 main: function integer ( argc: integer, argv: array [] string ) = {
 	puts("hello world");
 	for( i=0;i<size;i++) {

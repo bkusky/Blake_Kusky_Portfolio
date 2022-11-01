@@ -3,6 +3,7 @@
 
 #include "function.h"
 #include "tokens.h"
+#include "decl.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -10,6 +11,7 @@
 extern int yylex();
 extern char *yytext;
 extern int yyleng;
+extern struct decl *ast;
 
 void usage() {
 	printf("bminor <option> <sourcefile>\n");
@@ -26,7 +28,6 @@ void scan_execute() {
 		// yylex() returns 0 for eof
 		if (t == 0) break;
 
-		//printf("token: %d	text: %s\n", t, yytext);
 
 		switch (t) {
 			case TOKEN_ARRAY:
@@ -231,13 +232,10 @@ void string_clean(char * in_str) {
 
 int parse_execute() {
 
-	int p = yyparse();
-	if(p==0) {
+	int res = yyparse();
+	if (res == 0) {
 		printf("Parse successful!\n");
 		return 1;
-	} else if (p == -1) {
-		printf("Scan Error\n");
-		return -1;
 	} else {
 		printf("Parse failed.\n");
 		return -1;
@@ -245,5 +243,28 @@ int parse_execute() {
 }
 
 int print_execute() {
+	int res = yyparse();
+	
+	if (res != 0) {
+		printf("Parse failed\n");
+		return -1;
+	}
+
+	// if we have a valid ast we can print it
+	if(!ast) {
+		printf("function.c: AST is NULL.\n");
+		return -1;
+	}
+
+	// print ast
+	decl_print(ast, 0);
+
 	return 0;
 } 
+
+void indent_print(int indent) {
+
+	for (int i = 0; i < indent; i++) {		
+		printf("    ");
+	}
+}

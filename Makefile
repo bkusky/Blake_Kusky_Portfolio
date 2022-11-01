@@ -1,11 +1,11 @@
-bminor: main.o function.o scanner.o parser.o decl.o stmt.o expr.o type.o
-	gcc main.o function.o scanner.o parser.o decl.o stmt.o expr.o type.o -o bminor
+bminor: main.o function.o scanner.o parser.o decl.o stmt.o expr.o type.o param_list.o
+	gcc main.o function.o scanner.o parser.o decl.o stmt.o expr.o type.o param_list.o -o bminor
 
 main.o: main.c parser.c
 	gcc main.c -c -o main.o -g
 
 function.o: function.c parser.c
-	gcc function.c -c -o function.o -g
+	gcc function.c -c -o function.o -g 
 
 scanner.o: scanner.c
 	gcc scanner.c -c -o scanner.o -g
@@ -24,6 +24,9 @@ expr.o:	expr.c
 
 type.o: type.c
 	gcc type.c -c -o type.o -g
+
+param_list.o: param_list.c
+	gcc param_list.c -c -o param_list.o -g
 
 scanner.c: scanner.flex parser.c
 	flex -o scanner.c scanner.flex
@@ -48,3 +51,4 @@ clean:
 	rm -f stmt.o
 	rm -f expr.o
 	rm -f type.o
+	rm -f param_list.o

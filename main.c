@@ -2,6 +2,7 @@
 
 #include "function.h"
 #include "tokens.h"
+#include "decl.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -17,6 +18,7 @@ extern int yyparse();
 bool run_scan = false;
 bool run_parse = false;
 bool run_print = false;
+
 
 int main(int argc, char **argv) {
 	// read input
@@ -52,10 +54,10 @@ int main(int argc, char **argv) {
 	}
 
 	if (run_parse) {
-		int parse_result = parse_execute();
+		int res = parse_execute();
 
 		// error
-		if (parse_result < 0) { 
+		if (res < 0) { 
 			exit(1);
 		}
 	}
