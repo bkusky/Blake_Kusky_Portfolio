@@ -20,7 +20,7 @@ void decl_print( struct decl *d, int indent ) {
 	type_print(d->type);
 	
 	if (d->value) {
-		printf(" = ");
+		printf(" =");
 		expr_print(d->value);
 	}
 
@@ -29,10 +29,9 @@ void decl_print( struct decl *d, int indent ) {
 	}
 
 	if (d->code) {
-		printf(" = \n{");	
-		stmt_print(d->code, indent+1);
+		printf(" =");	
+		stmt_print(d->code, indent);
 		indent_print(indent);
-		printf("\n}");
 	}
 
 	printf("\n");

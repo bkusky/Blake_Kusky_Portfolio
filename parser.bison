@@ -193,7 +193,7 @@ type_static	: TOKEN_INT
 			;
 
 block	: TOKEN_LBRACE bunch_stmts TOKEN_RBRACE
-			{ $$ = $2; }
+			{ $$ = stmt_create(STMT_BLOCK, NULL, NULL, NULL, NULL, $2, NULL, NULL); }
 		;
 
 bunch_stmts	: stmt_list
