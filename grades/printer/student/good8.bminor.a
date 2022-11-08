@@ -1,0 +1,11 @@
+main: function integer ( argc: integer, argv: array [] string ) = 
+{
+    print ;
+    return ;
+    a++++;
+    for (; ; ) {
+        i: array [9999999] string;
+
+    }
+    array1[x=10]=5;
+}
