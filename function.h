@@ -10,5 +10,6 @@ void string_clean(char * in_str);
 int parse_execute();
 int print_execute();
 void indent_print(int indent);
+int resolve_execute();
 
 #endif

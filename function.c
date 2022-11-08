@@ -16,9 +16,11 @@ extern struct decl *ast;
 void usage() {
 	printf("bminor <option> <sourcefile>\n");
 	printf("options:\n");
-	printf("\t-scan:	scan <sourcefile>\n");
-	printf("\t-parse:	scan --> parse <sourcefile>\n");
-	printf("\t-print:	scan --> parse --> print <sourcefile>\n");
+	printf("\t-scan:		scan <sourcefile>\n");
+	printf("\t-parse:		scan --> parse <sourcefile>\n");
+	printf("\t-print:		scan --> parse --> print <sourcefile>\n");
+	printf("\t-resolve: 	scan --> parse --> resolve <sourcefile>\n");
+	printf("\t-typecheck:	scan --> parse --> resolve --> typecheck <sourcefile>\n");
 }
 
 void scan_execute() {
@@ -246,13 +248,13 @@ int print_execute() {
 	int res = yyparse();
 	
 	if (res != 0) {
-		printf("Parse failed\n");
+		printf("Parse error: parse failed\n");
 		return -1;
 	}
 
 	// if we have a valid ast we can print it
 	if(!ast) {
-		printf("function.c: AST is NULL.\n");
+		printf("invalid AST\n");
 		return -1;
 	}
 
@@ -267,4 +269,22 @@ void indent_print(int indent) {
 	for (int i = 0; i < indent; i++) {		
 		printf("    ");
 	}
+}
+
+int resolve_execute() {
+	int res = yyparse();
+
+	if (res != 0) {
+		printf("Parse error: parse failed\n");
+		return -1;
+	}	
+	
+	// check ast 
+	if(!ast) {
+		printf("invalid AST\n");
+		return -1;
+	}
+
+	// resolve
+	return 0;
 }

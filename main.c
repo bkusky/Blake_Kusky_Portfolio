@@ -18,6 +18,7 @@ extern int yyparse();
 bool run_scan = false;
 bool run_parse = false;
 bool run_print = false;
+bool run_resolve = false;
 
 
 int main(int argc, char **argv) {
@@ -36,6 +37,8 @@ int main(int argc, char **argv) {
 		run_parse = true;
 	} else if (!strcmp(argv[1], "-print")) {
 		run_print = true;
+	} else if (!strcmp(argv[1], "-resolve")) {
+		run_resolve = true;
 	} else {
 		usage(1);
 		exit(1);
@@ -69,7 +72,16 @@ int main(int argc, char **argv) {
 		if (print_result < 0) {
 			exit(1);
 		}
-	}	
+	}
+
+	if (run_resolve) {
+		int resolve_result = resolve_execute();
+
+		// error
+		if (resolve_result < 0) {
+			exit(1);
+		}
+	}
 	
 	return 0;
 }

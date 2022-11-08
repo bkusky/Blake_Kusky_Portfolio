@@ -18,9 +18,11 @@ struct stmt * stmt_create( stmt_t kind, struct decl *decl, struct expr *init_exp
 
 void stmt_print( struct stmt *s, int indent ) {
 	if (!s) return;
-    printf("\n");
-	// indent code
-	indent_print(indent);
+	
+	if (s->kind != STMT_BLOCK) {
+		printf("\n");
+		indent_print(indent);
+	}
 
 	switch (s->kind) {
 		case STMT_DECL:
@@ -69,11 +71,7 @@ void stmt_print_for(struct stmt *s, int indent) {
 	printf(")");
 
 	if (s->body) {
-		printf(" {");
 		stmt_print(s->body, indent+1);
-		printf("\n");
-		indent_print(indent);
-		printf("}");
 	}
 }
 
@@ -102,30 +100,28 @@ void stmt_print_return(struct stmt *s) {
 void stmt_print_if_else(struct stmt *s, int indent) {
 	printf("if (");
 	expr_print(s->expr);
-	printf(") {");
+	printf(")");
 	stmt_print(s->body, indent+1);
-	printf("\n");
-	indent_print(indent);
-	printf("}");
+
+	
 
 	if (s->else_body) {
 
-		printf(" else ");
+		printf(" else");
 
 		if (s->else_body->kind == STMT_IF_ELSE) {
 			stmt_print(s->else_body, indent);
 		} else {
-			printf("{");
 			stmt_print(s->else_body, indent+1);
-			printf("\n");
-			indent_print(indent);
-			printf("}");
 		}
 	}
 }
 
 void stmt_print_block(struct stmt *s, int indent) {
-	printf("{");
-	stmt_print(s->next, indent);
+	//indent_print(indent);
+	printf(" {");
+	stmt_print(s->body, indent+1);
+	printf("\n");
+	indent_print(indent-1);
 	printf("}");
 }
