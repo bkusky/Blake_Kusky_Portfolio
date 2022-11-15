@@ -19,7 +19,7 @@ bool run_scan = false;
 bool run_parse = false;
 bool run_print = false;
 bool run_resolve = false;
-
+bool run_typecheck = false;
 
 int main(int argc, char **argv) {
 	// read input
@@ -39,6 +39,8 @@ int main(int argc, char **argv) {
 		run_print = true;
 	} else if (!strcmp(argv[1], "-resolve")) {
 		run_resolve = true;
+	} else if (!strcmp(argv[1], "-typecheck")) {
+		run_typecheck = true;
 	} else {
 		usage(1);
 		exit(1);
@@ -79,6 +81,15 @@ int main(int argc, char **argv) {
 
 		// error
 		if (resolve_result < 0) {
+			exit(1);
+		}
+	}
+
+	if (run_typecheck) {
+		int typecheck_result = typecheck_execute();
+
+		// error
+		if (typecheck_result < 0) {
 			exit(1);
 		}
 	}

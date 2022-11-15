@@ -1,0 +1,15 @@
+// bad function
+
+f: function integer (c: char) = {
+    return 1;
+}
+
+g: function integer (c: char, t: integer) = {
+    return t;
+} 
+
+main: function void () = {
+    b: integer = f('a') + g('b', 10);
+
+    result: integer = square(b);
+}

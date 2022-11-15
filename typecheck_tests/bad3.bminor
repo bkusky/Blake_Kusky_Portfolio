@@ -1,0 +1,10 @@
+// auto error
+
+f: function integer (s: string) = {
+    a: auto;
+    b: auto;
+
+    a = b + 1;
+
+    return a;
+}

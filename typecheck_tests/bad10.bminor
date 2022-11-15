@@ -1,0 +1,8 @@
+// bad array
+
+
+main: function void () = {
+    x: array [10] char;
+
+    x['a'] = 'b';
+}

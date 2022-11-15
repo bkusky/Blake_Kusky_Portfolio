@@ -1,0 +1,8 @@
+// multiple parameter checking
+
+f: function integer (a: integer, b: integer, c: integer, x: integer, y: integer, z: integer) = {
+
+    result: integer = a + b + c + x + y + z;
+
+    return result;
+}

@@ -1,0 +1,19 @@
+// multiple scopes
+
+var: char = 'a';
+
+main: function void () = {
+
+    global: char = var;
+    
+    var: char = 'b';
+    {
+        var: char = 'c';
+        {
+            var: char = 'd';
+            print var;
+        }
+        print var;
+    }
+    print var;
+}

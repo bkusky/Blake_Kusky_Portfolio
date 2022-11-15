@@ -4,6 +4,7 @@
 #include "function.h"
 #include "tokens.h"
 #include "decl.h"
+#include "scope.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -12,6 +13,8 @@ extern int yylex();
 extern char *yytext;
 extern int yyleng;
 extern struct decl *ast;
+
+int typecheck_failure = 0;
 
 void usage() {
 	printf("bminor <option> <sourcefile>\n");
@@ -285,6 +288,65 @@ int resolve_execute() {
 		return -1;
 	}
 
+	// enter global scope
+	scope_enter();
+
+	decl_resolve(ast, 0); 
 	// resolve
+
+	// leave global scope
+	scope_exit();
+
+	if (typecheck_failure) {
+		return -1;
+	}
+
 	return 0;
 }
+
+int typecheck_execute() {
+	/* ++++ scan > parse ++++ */
+	int res = yyparse();
+
+	if (res != 0) {
+		printf("Parse error: parse failed\n");
+		return -1;
+	}	
+	
+	/* ++++ resolve ++++ */
+	// check ast 
+	if(!ast) {
+		printf("invalid AST\n");
+		return -1;
+	}
+
+	// enter global scope
+	scope_enter();
+
+	decl_resolve(ast, 0); 
+	// resolve
+
+	// leave global scope
+	scope_exit();
+
+	/* ++++ typecheck ++++ */
+
+	// check that resolution worked
+	if (typecheck_failure) {
+		return -1;
+	}
+	
+	// run typecheck
+	decl_typecheck(ast);
+
+	// check that typecheck passed
+	if (typecheck_failure) {
+		return -1;
+	}
+
+	return 0;
+
+}
+
+
+

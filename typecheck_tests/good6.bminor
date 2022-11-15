@@ -1,0 +1,33 @@
+// for loops
+
+puts: function void (s: string) = {
+    print s, "\n";
+}
+
+main: function integer ( argc: integer, argv: array [] string ) = {
+	i: integer;
+    j: integer;
+    k: integer;
+    l: integer;
+    m: integer;
+    a: string = "hi";
+    size: integer = 10;
+
+    puts("hello world");
+	for( i=0;i<size;i++) {
+		print a, "\n";
+		for( j=0;j<size;j++) {
+			print a, "\n";
+			for( k=0;k<size;k++) {
+				print a, "\n";
+				for( l=0;l<size;l++) {
+					print a, "\n";
+					for( m=0;m<size;m++) {
+						print a, "\n";
+					}
+				}
+			}
+		}
+		
+	}
+}

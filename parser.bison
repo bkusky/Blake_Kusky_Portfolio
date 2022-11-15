@@ -117,7 +117,7 @@ decl 	: ident TOKEN_COLON recursive_type TOKEN_ASSIGN assign_expr TOKEN_SEMICOLO
 recursive_type	: multi_type type_static
 			{ 
 				if ($1 == NULL) {
-					$1 = $2;
+					$$ = $2;
 				} else { 
 					struct type *t = $1;
 
@@ -125,15 +125,15 @@ recursive_type	: multi_type type_static
 						t = t->subtype;
 					}
 					t->subtype = $2;
+					$$ = $1;
 				}
-				$$ = $1;
 			}
 		;
 
 multi_type	: TOKEN_ARRAY TOKEN_LBRACKET expr_maybe TOKEN_RBRACKET multi_type
 				{ $$ = type_create(TYPE_ARRAY, $5, NULL, $3); } 
 			| /* epsilon */
-				{ $$ = type_create(-1, NULL, NULL, NULL); }
+				{ $$ = NULL; }
 			;
 
 
@@ -178,6 +178,8 @@ type_function	: TOKEN_INT
 					{ $$ = type_create(TYPE_STRING, NULL, NULL, NULL); }
 				| TOKEN_CHAR
 					{ $$ = type_create(TYPE_CHARACTER, NULL, NULL, NULL); }
+				| TOKEN_AUTO
+					{ $$ = type_create(TYPE_AUTO, NULL, NULL, NULL); }
 				;
 
 type_static	: TOKEN_INT
@@ -390,15 +392,15 @@ literal	: TOKEN_NUMBER
 		| TOKEN_CHAR_LIT
 			{ $$ = expr_create_char_literal(strdup(yytext)); }
 		| TOKEN_STR_LIT
-			{ $$ = expr_create_string_literal(strdup(yytext)); }
+			{ $$ = expr_create_string_literal(strdup(yytext)); } 
 		| TOKEN_TRUE
 			{ $$ = expr_create_boolean_literal(1); }
 		| TOKEN_FALSE
-			{ $$ = expr_create_boolean_literal(0); }
+			{ $$ = expr_create_boolean_literal(0); } 
 		| array_lookup
 			{ $$ = $1; }
 		| function_call
-			{ $$ = $1; }
+			{ $$ = $1; } 
 		;
 
 literal_list	: literal_comma

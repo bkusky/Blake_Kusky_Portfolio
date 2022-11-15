@@ -1,0 +1,7 @@
+// ternary error
+
+main: function void ( ) = {
+    x: integer = 1;
+
+    y: integer = (x > 0) ? x : 'a';
+}

@@ -1,0 +1,23 @@
+// expressions
+
+main: function void () = {
+    a: integer = 1;
+    b: integer = 1;
+    d: integer = 1;
+    c: integer;
+
+    c = a + b;
+    c = a-b;
+    c = a*b;
+    c = a/b;
+    c = a%b;
+    c++;
+    c--;
+
+    c = a^b;
+
+    c = a<b ? a : b;
+
+    c = -b;
+    
+}

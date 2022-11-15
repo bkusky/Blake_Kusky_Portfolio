@@ -1,0 +1,17 @@
+// if else error
+
+a: integer = 10;
+b: integer = 20;
+
+main: function void () = {
+    s: string = "hello";
+
+    if( a < s ) {
+        print "hi!\n";
+    } else if( b > s ) {
+        print "no.\n";
+    } else {
+        print "yo.\n";
+    }   
+
+}

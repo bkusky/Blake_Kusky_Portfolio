@@ -1,5 +1,5 @@
-bminor: main.o function.o scanner.o parser.o decl.o stmt.o expr.o type.o param_list.o
-	gcc main.o function.o scanner.o parser.o decl.o stmt.o expr.o type.o param_list.o -o bminor
+binor: main.o function.o scanner.o parser.o decl.o stmt.o expr.o type.o param_list.o symbol.o hash_table.o scope.o
+	gcc main.o function.o scanner.o parser.o decl.o stmt.o expr.o type.o param_list.o symbol.o hash_table.o scope.o -o bminor
 
 main.o: main.c parser.c
 	gcc main.c -c -o main.o -g
@@ -28,14 +28,20 @@ type.o: type.c
 param_list.o: param_list.c
 	gcc param_list.c -c -o param_list.o -g
 
+symbol.o: symbol.c
+	gcc symbol.c -c -o symbol.o -g
+
+hash_table.o: hash_table.c
+	gcc hash_table.c -c -o hash_table.o -g
+
+scope.o: scope.c
+	gcc scope.c -c -o scope.o -g
+
 scanner.c: scanner.flex parser.c
 	flex -o scanner.c scanner.flex
 
 parser.c tokens.h: parser.bison
-	bison --defines=tokens.h --output=parser.c -v parser.bison
-
-
-	
+	bison --defines=tokens.h --output=parser.c -v parser.bison	
 
 clean:
 	rm -f scanner.o
@@ -52,3 +58,6 @@ clean:
 	rm -f expr.o
 	rm -f type.o
 	rm -f param_list.o
+	rm -f symbol.o
+	rm -f hash_table.o
+	rm -f scope.o

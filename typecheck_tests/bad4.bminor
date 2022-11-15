@@ -1,0 +1,9 @@
+// expression error
+
+main: function void () = {
+    a: integer = 10;
+
+    b: char = 'a';
+
+    c: integer = a % b;
+}

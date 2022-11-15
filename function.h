@@ -11,5 +11,7 @@ int parse_execute();
 int print_execute();
 void indent_print(int indent);
 int resolve_execute();
+int typecheck_execute();
+
 
 #endif

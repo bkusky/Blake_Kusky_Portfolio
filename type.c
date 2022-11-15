@@ -65,3 +65,64 @@ void type_func_print(struct type *t) {
 
 	printf(" )");
 }
+
+bool type_equals(struct type *a, struct type *b) {
+	
+	if (!a && !b) return true;
+	if (!a || !b) return false;
+
+	if (a->kind == b->kind) {
+		if (a->kind == TYPE_ARRAY && b->kind == TYPE_ARRAY) {
+			// check subtypes
+			puts("0");	
+			if (type_equals(a->subtype, b->subtype)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else if (a->kind == TYPE_FUNCTION) {
+			// check subtypes
+			if (type_equals(a->subtype, b->subtype)) {
+				
+				// check params
+				
+				struct param_list *p1 = a->params;
+				struct param_list *p2 = b->params;
+
+				while (p1 || p2) {
+					
+					if (!p1 || !p2) {
+						return false;
+					} else {
+						if (type_equals(p1->type, p2->type)) {
+							p1 = p1->next;
+							p2 = p2->next;
+						} else {
+							return false;
+						}
+					}
+				} 
+
+				return true;
+
+			} else {
+				return false;
+			}
+
+			
+		} else { // atomic type
+			return true;
+		}
+		
+	} else {
+		return false;
+	}
+	
+}
+
+struct type *type_copy(struct type *t) {
+	if (!t) return NULL;
+
+	return type_create(t->kind, type_copy(t->subtype), param_list_copy(t->params), t->arr_length);
+
+}

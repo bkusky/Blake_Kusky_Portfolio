@@ -75,4 +75,6 @@ void expr_print_array_lookup(struct expr *e);
 
 void expr_print( struct expr *e );
 
+void expr_resolve(struct expr *e);
+struct type *expr_typecheck(struct expr *e);
 #endif
