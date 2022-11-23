@@ -1,0 +1,1952 @@
+=====STUDENT TESTS=====
+====Good Tests====
+===[good10.bminor Input]===
+// expressions
+
+main: function void () = {
+    a: integer = 1;
+    b: integer = 1;
+    d: integer = 1;
+    c: integer;
+
+    c = a + b;
+    c = a-b;
+    c = a*b;
+    c = a/b;
+    c = a%b;
+    c++;
+    c--;
+
+    c = a^b;
+
+    c = a<b ? a : b;
+
+    c = -b;
+    
+}
+===[good10.bminor Output]===
+Success!
+
+c resolves to local 3
+a resolves to local 0
+b resolves to local 1
+c resolves to local 3
+a resolves to local 0
+b resolves to local 1
+c resolves to local 3
+a resolves to local 0
+b resolves to local 1
+c resolves to local 3
+a resolves to local 0
+b resolves to local 1
+c resolves to local 3
+a resolves to local 0
+b resolves to local 1
+c resolves to local 3
+c resolves to local 3
+c resolves to local 3
+a resolves to local 0
+b resolves to local 1
+c resolves to local 3
+a resolves to local 0
+b resolves to local 1
+a resolves to local 0
+b resolves to local 1
+c resolves to local 3
+b resolves to local 1
+
+
+return code: 0
+
+
+===[good1.bminor Input]===
+// basic declarations and assignments
+
+n: integer = 0;
+
+main: function integer () = {
+
+    x: integer = 1;
+    y: char = 'a';
+    z: boolean;
+
+    x = x + n;
+
+    print y;
+
+}
+===[good1.bminor Output]===
+Success!
+
+x resolves to local 0
+x resolves to local 0
+n resolves to global n
+y resolves to local 1
+
+
+return code: 0
+
+
+===[good2.bminor Input]===
+// auto
+
+square: function integer ( x: integer ) = {
+	return x^2;
+}
+
+main: function void () =
+{
+	x: auto = 5 + 10;
+	
+	b: auto;
+	b = x < 20;
+
+	x = square(2);
+}
+===[good2.bminor Output]===
+Success!
+
+x resolves to param 0
+b resolves to local 1
+x resolves to local 0
+x resolves to local 0
+square resolves to global square
+notice: type of x is integer
+notice: type of b is boolean
+
+
+return code: 0
+
+
+===[good3.bminor Input]===
+// multiple parameter checking
+
+f: function integer (a: integer, b: integer, c: integer, x: integer, y: integer, z: integer) = {
+
+    result: integer = a + b + c + x + y + z;
+
+    return result;
+}
+===[good3.bminor Output]===
+Success!
+
+a resolves to param 0
+b resolves to param 1
+c resolves to param 2
+x resolves to param 3
+y resolves to param 4
+z resolves to param 5
+result resolves to local 0
+
+
+return code: 0
+
+
+===[good4.bminor Input]===
+// multiple scopes
+
+var: char = 'a';
+
+main: function void () = {
+
+    global: char = var;
+    
+    var: char = 'b';
+    {
+        var: char = 'c';
+        {
+            var: char = 'd';
+            print var;
+        }
+        print var;
+    }
+    print var;
+}
+===[good4.bminor Output]===
+Success!
+
+var resolves to global var
+var resolves to local 0
+var resolves to local 0
+var resolves to local 1
+
+
+return code: 0
+
+
+===[good5.bminor Input]===
+// prototype testing
+
+prot: function integer (x: integer);
+
+main: function void () = {
+    print "hi";
+}
+
+prot: function integer (x: integer) = {
+    return x+x;
+}
+===[good5.bminor Output]===
+Success!
+
+x resolves to param 0
+x resolves to param 0
+
+
+return code: 0
+
+
+===[good6.bminor Input]===
+// for loops
+
+puts: function void (s: string) = {
+    print s, "\n";
+}
+
+main: function integer ( argc: integer, argv: array [] string ) = {
+	i: integer;
+    j: integer;
+    k: integer;
+    l: integer;
+    m: integer;
+    a: string = "hi";
+    size: integer = 10;
+
+    puts("hello world");
+	for( i=0;i<size;i++) {
+		print a, "\n";
+		for( j=0;j<size;j++) {
+			print a, "\n";
+			for( k=0;k<size;k++) {
+				print a, "\n";
+				for( l=0;l<size;l++) {
+					print a, "\n";
+					for( m=0;m<size;m++) {
+						print a, "\n";
+					}
+				}
+			}
+		}
+		
+	}
+}
+===[good6.bminor Output]===
+Success!
+
+s resolves to param 0
+puts resolves to global puts
+i resolves to local 0
+i resolves to local 0
+size resolves to local 6
+i resolves to local 0
+a resolves to local 5
+j resolves to local 1
+j resolves to local 1
+size resolves to local 6
+j resolves to local 1
+a resolves to local 5
+k resolves to local 2
+k resolves to local 2
+size resolves to local 6
+k resolves to local 2
+a resolves to local 5
+l resolves to local 3
+l resolves to local 3
+size resolves to local 6
+l resolves to local 3
+a resolves to local 5
+m resolves to local 4
+m resolves to local 4
+size resolves to local 6
+m resolves to local 4
+a resolves to local 5
+
+
+return code: 0
+
+
+===[good7.bminor Input]===
+// if else
+
+get_temp: function integer () = {
+    return 70;
+}
+
+main: function void () = {
+    temp: integer = get_temp();
+    
+    if( temp>100 ) {
+        print "It's really hot!\n";
+    } else if( temp>70 ) {
+        print "It's pretty warm.\n";
+    } else {
+        print "It's not too bad.\n";
+    }
+}
+===[good7.bminor Output]===
+Success!
+
+get_temp resolves to global get_temp
+temp resolves to local 0
+temp resolves to local 0
+
+
+return code: 0
+
+
+===[good8.bminor Input]===
+// auto with function returns
+// f should be of type integer
+
+f: function auto (x: integer) = {
+
+    return x;
+}
+
+main: function void () = {
+    result: integer;
+
+    result = f(10);
+
+}
+===[good8.bminor Output]===
+Success!
+
+x resolves to param 0
+result resolves to local 0
+f resolves to global f
+notice: return type of function f is integer
+
+
+return code: 0
+
+
+===[good9.bminor Input]===
+// use of auto with other things
+
+compute1: function auto (x: integer, y: integer) = {
+    return x^2 + y^2;
+}
+
+compute2: function auto (x: integer, y: integer) = {
+    return x^2 - y^2;
+}
+
+main: function void () = {
+    i: integer = 10;
+    j: integer = 11;
+
+    a: auto;
+    b: auto;
+    c: auto;
+
+    a = i + j;
+    b = i + j;
+    c = j;
+
+
+}
+
+
+===[good9.bminor Output]===
+Success!
+
+x resolves to param 0
+y resolves to param 1
+x resolves to param 0
+y resolves to param 1
+a resolves to local 2
+i resolves to local 0
+j resolves to local 1
+b resolves to local 3
+i resolves to local 0
+j resolves to local 1
+c resolves to local 4
+j resolves to local 1
+notice: return type of function compute1 is integer
+notice: return type of function compute2 is integer
+notice: type of a is integer
+notice: type of b is integer
+notice: type of c is integer
+
+
+return code: 0
+
+
+====Bad Tests====
+===[bad10.bminor Input]===
+// bad array
+
+
+main: function void () = {
+    x: array [10] char;
+
+    x['a'] = 'b';
+}
+===[bad10.bminor Output]===
+Success!
+
+x resolves to local 0
+type error: array index must contain an integer expression: ('a') is of type char
+
+
+return code: 1
+
+
+===[bad1.bminor Input]===
+// no declaration of y
+
+main: function void ( ) = {
+
+    z: integer = 1;
+
+    z = y + 1;
+    
+}
+===[bad1.bminor Output]===
+Success!
+
+z resolves to local 0
+resolve error: y is not defined
+
+
+return code: 1
+
+
+===[bad2.bminor Input]===
+// ternary error
+
+main: function void ( ) = {
+    x: integer = 1;
+
+    y: integer = (x > 0) ? x : 'a';
+}
+===[bad2.bminor Output]===
+Success!
+
+x resolves to local 0
+x resolves to local 0
+type error: ternary type conflict >>> ( integer --> x ) : ( char --> 'a' ). Types must match
+
+
+return code: 1
+
+
+===[bad3.bminor Input]===
+// auto error
+
+f: function integer (s: string) = {
+    a: auto;
+    b: auto;
+
+    a = b + 1;
+
+    return a;
+}
+===[bad3.bminor Output]===
+Success!
+
+a resolves to local 0
+b resolves to local 1
+a resolves to local 0
+type error: cannot add a auto (b) to a integer (1)
+notice: type of a is integer
+
+
+return code: 1
+
+
+===[bad4.bminor Input]===
+// expression error
+
+main: function void () = {
+    a: integer = 10;
+
+    b: char = 'a';
+
+    c: integer = a % b;
+}
+===[bad4.bminor Output]===
+Success!
+
+a resolves to local 0
+b resolves to local 1
+type error: cannot mod a integer (a) and a char (b)
+
+
+return code: 1
+
+
+===[bad5.bminor Input]===
+// if else error
+
+a: integer = 10;
+b: integer = 20;
+
+main: function void () = {
+    s: string = "hello";
+
+    if( a < s ) {
+        print "hi!\n";
+    } else if( b > s ) {
+        print "no.\n";
+    } else {
+        print "yo.\n";
+    }   
+
+}
+===[bad5.bminor Output]===
+Success!
+
+a resolves to global a
+s resolves to local 0
+b resolves to global b
+s resolves to local 0
+type error: cannot compare (less than) a integer (a) to a string (s)
+type error: cannot compare (greater than) a integer (b) to a string (s)
+
+
+return code: 1
+
+
+===[bad6.bminor Input]===
+// bad function
+
+f: function integer (c: char) = {
+    return 1;
+}
+
+g: function integer (c: char, t: integer) = {
+    return t;
+} 
+
+main: function void () = {
+    b: integer = f('a') + g('b', 10);
+
+    result: integer = square(b);
+}
+===[bad6.bminor Output]===
+Success!
+
+t resolves to param 1
+f resolves to global f
+g resolves to global g
+resolve error: square is not defined
+
+
+return code: 1
+
+
+===[bad7.bminor Input]===
+// variable scope error
+
+var: integer = 2;
+
+main: function void (argc: integer) = {
+
+    print "inner_var does not exist within this scope";
+
+    {
+        inner_var: integer = 1;
+    }
+
+    result: integer = inner_var + var;
+
+}
+===[bad7.bminor Output]===
+Success!
+
+resolve error: inner_var is not defined
+var resolves to global var
+
+
+return code: 1
+
+
+===[bad8.bminor Input]===
+// return error
+
+f: function boolean (t: char) = {
+    x: integer = 1;
+
+    return x;
+}
+===[bad8.bminor Output]===
+Success!
+
+x resolves to local 0
+type error: cannot return a integer (x) in a function that returns boolean
+
+
+return code: 1
+
+
+===[bad9.bminor Input]===
+// print error
+
+x: integer = 1;
+
+main: function void () = {
+    print "hello", x, y;
+}
+===[bad9.bminor Output]===
+Success!
+
+x resolves to global x
+x resolves to global x
+resolve error: y is not defined
+
+
+return code: 1
+
+
+=====HIDDEN TESTS=====
+====Good Tests====
+===[good1.bminor Input]===
+/*
+Correct: The parameter name can vary as long as the type is the same.
+*/
+
+x: function integer(a:integer);
+
+x: function integer(b:integer) = {
+	return 0;
+}
+
+x: function integer(c:integer);
+
+===[good1.bminor Output]===
+TEST NOT PASSED
+
+resolve error: multiple declarations of x
+
+
+return code: 1
+
+
+===[good10.bminor Input]===
+/*
+Correct: Testing invocation of external function.
+*/
+
+abs: function integer(n: integer);
+
+digits: array [6] integer = {
+	14,
+	8,
+	6168,
+	42,
+	0,
+	74546
+};
+
+main:function integer () = {
+	digits[4] = -468;
+	i: integer = 0;
+	for (; abs(digits[i]) == digits[i];) {
+		print digits[i];
+		i = i + 1;
+		print ' ';
+	}
+	print '\n';
+
+	return 0;
+}
+
+===[good10.bminor Output]===
+TEST NOT PASSED
+
+
+
+return code: -11
+
+
+===[good2.bminor Input]===
+/*
+Correct: Test various nested definitions.
+*/
+
+f: function void() = {
+	x: integer = 1;
+	{
+		print x;
+		x: integer = x + 1;
+		print x;
+	}
+	print x;
+}
+
+===[good2.bminor Output]===
+Success!
+
+x resolves to local 0
+x resolves to local 0
+x resolves to local 0
+x resolves to local 0
+
+
+return code: 0
+
+
+===[good3.bminor Input]===
+/*
+Correct: Test various function return types.
+*/
+
+A: function boolean(x: integer, y: integer);
+B: function integer(x: char);
+C: function char(a: string);
+
+main: function integer() = {
+	i: integer;
+	for (i = 0; i < 10; i++)
+		if (i % 2 == 0)
+			print i;
+		else
+			return i;
+
+	if (A(B('d') - 1, 10)) {
+		x: integer = 0;
+		return 2 * B('c') + x;
+	}
+
+	return B(C("hello")) % 3;
+}
+
+===[good3.bminor Output]===
+TEST NOT PASSED
+
+
+
+return code: -11
+
+
+===[good4.bminor Input]===
+/*
+Correct: Test combinations of boolean operators.
+*/
+
+func: function void(
+		a: integer,
+		b: integer,
+		c: boolean,
+		d: boolean
+	) = {
+
+	print a -b;
+	print c && d;
+	print a + b * a - a ^ b /a;
+
+	print a < b && d;
+	print (a < b) || (c && d);
+}
+
+===[good4.bminor Output]===
+TEST NOT PASSED
+
+a resolves to param 0
+b resolves to param 1
+c resolves to param 2
+d resolves to param 3
+a resolves to param 0
+b resolves to param 1
+a resolves to param 0
+a resolves to param 0
+b resolves to param 1
+a resolves to param 0
+a resolves to param 0
+b resolves to param 1
+d resolves to param 3
+a resolves to param 0
+b resolves to param 1
+c resolves to param 2
+d resolves to param 3
+type error: cannot perform a logical AND of a boolean (c)
+type error: cannot perform a logical AND of a boolean (a<b)
+type error: cannot perform a logical AND of a boolean (c)
+type error: cannot perform a logical OR of a boolean (a<b)
+
+
+return code: 1
+
+
+===[good5.bminor Input]===
+/*
+Correct: Test array assignments.
+*/
+
+x:array [5] integer = {1,2,3,4,5};
+y:array [5] array [5] integer;
+
+main:function void () =
+{
+	y[1] = x;
+	count:integer;
+	for(count = 0; count < 5; count++)
+	{
+		y[count] = x;
+	} 	
+}
+
+===[good5.bminor Output]===
+Success!
+
+y resolves to global y
+x resolves to global x
+count resolves to local 0
+count resolves to local 0
+count resolves to local 0
+y resolves to global y
+count resolves to local 0
+x resolves to global x
+
+
+return code: 0
+
+
+===[good6.bminor Input]===
+/*
+Correct: Test assignment of array literals.
+*/
+
+main: function void (a: integer) = {
+	x: array [1] boolean = {true};
+	y: array [1] integer = {0};
+	if (x[y[a]]) return;
+}
+
+===[good6.bminor Output]===
+TEST NOT PASSED
+
+x resolves to local 0
+y resolves to local 1
+a resolves to param 0
+type error: cannot assign a integer to array [1] boolean
+type error: if condition integer (x[y[a]]) must be a boolean
+type error: cannot return a () in a function that returns void
+
+
+return code: 1
+
+
+===[good7.bminor Input]===
+/*
+Correct: Test if-expression and return-expression.
+*/
+
+main: function integer() = {
+	m: integer = 2;
+	n: boolean = true;
+
+	if (!n) return 0; else return -m;
+
+	print 10 * (-1 + m);
+}
+
+===[good7.bminor Output]===
+Success!
+
+n resolves to local 1
+m resolves to local 0
+m resolves to local 0
+
+
+return code: 0
+
+
+===[good8.bminor Input]===
+/*
+Correct: Boolean expression in several places.
+*/
+
+x: function integer(a:boolean) = {
+	if (a) for (;a;) print a;
+}
+
+===[good8.bminor Output]===
+Success!
+
+a resolves to param 0
+a resolves to param 0
+a resolves to param 0
+
+
+return code: 0
+
+
+===[good9.bminor Input]===
+/*
+Correct: A program to plot a quadratic function. 
+*/
+
+/* Make use of atoi from the standard library */
+
+atoi: function integer( s: string );
+
+quadratic: function integer ( a: integer, b: integer, c: integer, x: integer ) = {
+	return a*x*x + b*x + c*x;
+}
+
+main: function integer ( argc: integer, argv: array [] string ) =  {
+
+      if(argc<3) {
+          print "use: ", argv[0], "[a] [b] [c] [start] [end]\n";
+      }
+
+      a: integer = atoi(argv[0]);
+      b: integer = atoi(argv[1]);
+      c: integer = atoi(argv[2]);
+      start: integer = atoi(argv[3]);
+      end: integer = atoi(argv[4]);
+
+
+      x: integer;
+      
+      for(x=start;x<end;x++) {
+          print x, " ", quadratic(a,b,c,x), "\n";
+      }
+
+      return 0;
+}
+
+===[good9.bminor Output]===
+TEST NOT PASSED
+
+
+
+return code: -11
+
+
+===[good11.bminor Input]===
+/*
+Correct: Test ternary operator
+*/
+
+func: function void(
+		a: integer,
+		b: integer,
+		c: boolean,
+		d: boolean
+	) = {
+        
+    print a < b ? c : d;
+}
+===[good11.bminor Output]===
+Success!
+
+a resolves to param 0
+b resolves to param 1
+c resolves to param 2
+d resolves to param 3
+d resolves to param 3
+
+
+return code: 0
+
+
+===[good12.bminor Input]===
+/*
+Correct: Auto can correctly be used to infer types
+*/
+
+main: function integer() = {
+	m: auto = 3;
+	n: auto = 5;
+    
+    x: auto = m + n;
+
+    print x;
+}
+
+===[good12.bminor Output]===
+Success!
+
+m resolves to local 0
+n resolves to local 1
+x resolves to local 2
+notice: type of m is integer
+notice: type of n is integer
+notice: type of x is integer
+
+
+return code: 0
+
+
+====Bad Tests====
+===[bad1.bminor Input]===
+/*
+Incorrect: Mismatched types in forward declaration
+*/
+
+x: function integer(a:char);
+x: function integer(a:integer) = {
+	return 0;
+}
+
+===[bad1.bminor Output]===
+TEST NOT PASSED
+
+
+
+return code: 0
+
+
+===[bad10.bminor Input]===
+/*
+Incorrect: Several type errors throughout.
+*/
+
+abs: function string (n: integer);
+
+digits: array [6] char = {
+	14,
+	8,
+	6168,
+	42,
+	0,
+	74546
+};
+
+main:function integer () = {
+	digits[4] = -468;
+	i: boolean = 0;
+	for (; abs(digits[i]) == digits[i];) {
+		print digits[i];
+		i = i + 1;
+		print ' ';
+	}
+	print '\n';
+
+	return 0;
+}
+
+===[bad10.bminor Output]===
+Success!
+
+
+
+return code: -11
+
+
+===[bad2.bminor Input]===
+/*
+Incorrect: Variable redefined within a scope.
+*/
+
+f: function void() = {
+	x: integer = 1;
+	{
+		print x;
+		x: integer = x + 1;
+		print x;
+	}
+	x: integer = 2;
+	print x;
+}
+
+===[bad2.bminor Output]===
+Success!
+
+x resolves to local 0
+x resolves to local 0
+x resolves to local 0
+resolve error: multiple declarations of x
+x resolves to local 0
+
+
+return code: 1
+
+
+===[bad3.bminor Input]===
+/*
+Incorrect: Mismatched function return types.
+*/
+
+main: function void() = {
+	return i;
+}
+
+func: function integer() = {
+	return;
+}
+
+===[bad3.bminor Output]===
+Success!
+
+resolve error: i is not defined
+
+
+return code: 1
+
+
+===[bad4.bminor Input]===
+/*
+Incorrect: Mismatched operators.
+*/
+
+
+func: function void(
+		a: integer,
+		b: integer,
+		c: boolean,
+		d: boolean
+	) = {
+
+	print a -c;
+	print c * d;
+	print a + b * a - a ^ b /d;
+
+	print a < b && a;
+	print (a < b) + (c && d);
+}
+
+===[bad4.bminor Output]===
+Success!
+
+a resolves to param 0
+c resolves to param 2
+c resolves to param 2
+d resolves to param 3
+a resolves to param 0
+b resolves to param 1
+a resolves to param 0
+a resolves to param 0
+b resolves to param 1
+d resolves to param 3
+a resolves to param 0
+b resolves to param 1
+a resolves to param 0
+a resolves to param 0
+b resolves to param 1
+c resolves to param 2
+d resolves to param 3
+type error: cannot subtract a boolean (c) from a integer (a)
+type error: cannot multiply a boolean (c) and a boolean (d)
+type error: cannot divide a integer (a^b) by a boolean (d)
+type error: cannot perform a logical AND of a boolean (a<b)
+type error: cannot perform a logical AND of a boolean (a<b) and a integer (a)
+type error: cannot perform a logical AND of a boolean (c)
+type error: cannot add a boolean (a<b) to a boolean (c&&d)
+
+
+return code: 1
+
+
+===[bad6.bminor Input]===
+/*
+Incorrect: Cannot assign an array to an atomic type.
+*/
+
+main: function void () = {
+	// array of one boolean != boolean
+	x: array [1] boolean = {true};
+	if (x) return;
+}
+
+===[bad6.bminor Output]===
+Success!
+
+x resolves to local 0
+type error: cannot assign a integer to array [1] boolean
+type error: if condition array [1] boolean (x) must be a boolean
+type error: cannot return a () in a function that returns void
+
+
+return code: 1
+
+
+===[bad7.bminor Input]===
+/*
+Incorrect: Improper operators on values.
+*/
+
+main: function integer() = {
+	m: integer = 2;
+	n: boolean = true;
+
+	// wrong negation
+	if (-n) return 0; else return !m;
+
+	// arithmetic on boolean
+	print 10 * (-1 + n);
+}
+
+===[bad7.bminor Output]===
+Success!
+
+n resolves to local 1
+m resolves to local 0
+n resolves to local 1
+type error: cannot negate a boolean (n)
+type error: if condition integer (-n) must be a boolean
+type error: cannot add a integer (-1) to a boolean (n)
+
+
+return code: 1
+
+
+===[bad8.bminor Input]===
+/*
+Incorrect: Cannot use an integer in place of a boolean.
+*/
+
+x: function integer(a:integer) = {
+	if (a) return 10;
+	for (;a;) print a;
+}
+
+===[bad8.bminor Output]===
+Success!
+
+a resolves to param 0
+a resolves to param 0
+a resolves to param 0
+type error: if condition integer (a) must be a boolean
+type error: for loop parameter expression 2 ( integer ) is not of type boolean
+
+return code: 1
+
+
+===[bad9.bminor Input]===
+/*
+Incorrect: Several type mismatches throughout.
+*/
+
+/* Make use of atoi from the standard library */
+
+atoi: function boolean ( s: string );
+
+quadratic: function void ( a: char, b: string, c: boolean, x: integer ) = {
+	return a*x*x + b*x + c*x;
+}
+
+main: function integer ( argc: integer, argv: array [] string ) =  {
+
+      if(argc<3) {
+          print "use: ", argv[0], "[a] [b] [c] [start] [end]\n";
+      }
+
+      a: integer = atoi(argv[0]);
+      b: integer = atoi(argv[1]);
+      c: integer = atoi(argv[2]);
+      start: integer = atoi(argv[3]);
+      end: integer = atoi(argv[4]);
+
+
+      x: integer;
+      
+      for(x=start;x<end;x++) {
+          print x, " ", quadratic(a,b,c,x), "\n";
+      }
+
+      return 0;
+}
+
+===[bad9.bminor Output]===
+Success!
+
+
+
+return code: -11
+
+
+===[bad11.bminor Input]===
+/*
+Incorrect: An auto must eventually be assigned to something
+*/
+
+main: function integer() = {
+	m: auto;
+	n: auto = 5;
+    
+    // The m has not been set yet
+    x: auto = m + n;
+
+    print x;
+}
+
+===[bad11.bminor Output]===
+Success!
+
+m resolves to local 0
+n resolves to local 1
+x resolves to local 2
+notice: type of n is integer
+type error: cannot add a auto (m) to a integer (n)
+notice: type of x is integer
+
+
+return code: 1
+
+
+===[bad5.bminor Input]===
+/*
+Incorrect: Cannot subscript a value which is not an array.
+*/
+
+main: function void() = {
+	s : boolean = false;
+	c : char = s[1];
+	print c;
+}
+
+===[bad5.bminor Output]===
+Success!
+
+s resolves to local 0
+c resolves to local 1
+type error: cannot assign a integer to char
+
+
+return code: 1
+
+
+=====COMMON TESTS=====
+====Good Tests====
+===[good1.bminor Input]===
+/* Assign integer expression to local variable/ typechecking with function call. */
+
+x: integer = 5;
+y: integer = 10;
+
+main: function void ()=
+{
+	x: integer = y * 10 + 15 - 4;
+}
+	
+
+
+===[good1.bminor Output]===
+Success!
+
+y resolves to global y
+
+
+return code: 0
+
+
+===[good10.bminor Input]===
+/* Test array of array assignments. */
+
+x: array [5] integer = {1,2,3,4,5};
+y: array [5] array [5] integer;
+
+main: function void () =
+{
+	y[1] = x;
+	count: integer;
+	for(count = 0; count < 5; count++)
+	{
+		y[count] = x;
+	} 	
+}
+
+===[good10.bminor Output]===
+Success!
+
+y resolves to global y
+x resolves to global x
+count resolves to local 0
+count resolves to local 0
+count resolves to local 0
+y resolves to global y
+count resolves to local 0
+x resolves to global x
+
+
+return code: 0
+
+
+===[good2.bminor Input]===
+/* Assign an integer expression to local variable. */
+
+x: integer = 5;
+y: integer = 10;
+
+test: function integer();
+
+main: function void ()=
+{
+	x:integer = y * 10 + 15 - test();
+}
+
+test: function integer () =
+{
+	return 5;
+}
+	
+
+
+===[good2.bminor Output]===
+Success!
+
+y resolves to global y
+test resolves to global test
+
+
+return code: 0
+
+
+===[good3.bminor Input]===
+/* Test name resolution at multiple scope levels. */
+
+x: integer = 5;
+y: integer = 10;
+
+main: function void () =
+{
+	x: integer = 5;
+	y: integer = 10;
+	{
+		x: integer = 5;
+		y: integer = 10;
+		{
+			x: char = 'a';
+			y: integer = 10;
+		}
+		y = x + y;
+	}
+}
+	
+
+
+===[good3.bminor Output]===
+Success!
+
+y resolves to local 1
+x resolves to local 0
+y resolves to local 1
+
+
+return code: 0
+
+
+===[good4.bminor Input]===
+/* Use character types in various contexts. */
+
+charFxn: function char(x: char)=
+{
+	if(x == 'a')
+	{
+		return 'z';
+	}
+}
+
+main: function void ()=
+{
+	c: char;
+
+	if('a' == charFxn('c'))
+	{
+		print "unreachable";
+	}
+	if('a' != 'a')
+	{
+		print "unreachable";
+	}
+	if(c == 'a')
+	{
+		print "unreachable";
+	}
+}
+
+
+===[good4.bminor Output]===
+Success!
+
+x resolves to param 0
+charFxn resolves to global charFxn
+c resolves to local 0
+
+
+return code: 0
+
+
+===[good5.bminor Input]===
+// Test integer comparisons and functions. */
+
+intFxn: function integer(c:char);
+
+glob: integer = 1;
+
+main: function void ()=
+{
+	c: integer;
+	if(6 == intFxn('c'))
+	{
+		print "unreachable";
+	}
+	if(5 >= 5)
+	{
+		print "unreachable";
+	}
+	if(c > 5)
+	{
+		print "unreachable";
+	}
+	if(c >= 5)
+	{
+		print "unreachable";
+	}
+	if(intFxn('a') <= 5)
+	{
+		print "reachable";
+	}
+	if(glob < 5)
+	{
+		print "reachable";
+	}
+}
+
+intFxn: function integer(c: char)=
+{
+	if(c == 'a')
+	{
+		return 5;
+	}
+	return 0;
+}
+
+
+===[good5.bminor Output]===
+Success!
+
+intFxn resolves to global intFxn
+c resolves to local 0
+c resolves to local 0
+intFxn resolves to global intFxn
+glob resolves to global glob
+c resolves to param 0
+
+
+return code: 0
+
+
+===[good6.bminor Input]===
+/* Test function declarations without prototypes. */
+
+test1: function integer (a:integer, b:integer)=
+{
+	return a + b;
+}
+
+test2: function boolean (a:integer, b:integer)=
+{
+	return a < b;
+}
+
+test3: function char (a:integer)=
+{
+	if (a > 5) {
+		return 'x';
+	} else {
+		return 'y';
+	}
+}
+
+main:function void ()=
+{
+	print test1(10,20), test2(30,40), test3(10), "\n";
+}
+
+
+===[good6.bminor Output]===
+Success!
+
+a resolves to param 0
+b resolves to param 1
+a resolves to param 0
+b resolves to param 1
+a resolves to param 0
+test1 resolves to global test1
+test2 resolves to global test2
+test3 resolves to global test3
+
+
+return code: 0
+
+
+===[good7.bminor Input]===
+/* Test function invocations with prototypes. */
+
+test1:function integer (a:integer, b:integer);
+test2:function boolean (a:integer, b:integer);
+test3:function string (a:integer);
+
+main:function void ()=
+{
+	x:integer = test1(5, 6);
+	test2(5, 6);
+	print test3(7);
+}
+
+test1:function integer (a:integer, b:integer)=
+{
+	return a + b;
+}
+
+test2:function boolean (a:integer, b:integer)=
+{
+	return a==b;
+}
+
+test3:function string (a:integer)=
+{
+	if (test1(1, 5) > 6)
+	{
+		return "hello world";
+	}
+}
+
+===[good7.bminor Output]===
+Success!
+
+test1 resolves to global test1
+test2 resolves to global test2
+test3 resolves to global test3
+a resolves to param 0
+b resolves to param 1
+a resolves to param 0
+b resolves to param 1
+test1 resolves to global test1
+
+
+return code: 0
+
+
+===[good8.bminor Input]===
+/* Update one element of an array. */
+
+x:array [5] integer = {1,2,3,4,5};
+
+main:function void () =
+{
+	x[4] = 4;
+}
+
+===[good8.bminor Output]===
+Success!
+
+x resolves to global x
+
+
+return code: 0
+
+
+===[good9.bminor Input]===
+/* Update array with values from function calls. */
+
+x: array [5] integer = {1,2,3,4,5};
+intFxn: function integer ();
+
+main: function void () =
+{
+	x[4] = intFxn();
+	x[intFxn()] = 4;
+	
+}
+intFxn: function integer () =
+{
+	return 3;
+}
+
+===[good9.bminor Output]===
+Success!
+
+x resolves to global x
+intFxn resolves to global intFxn
+x resolves to global x
+intFxn resolves to global intFxn
+
+
+return code: 0
+
+
+====Bad Tests====
+===[bad1.bminor Input]===
+/* Cannot assign a character to a global integer. */
+
+x: integer = 'c';
+
+
+===[bad1.bminor Output]===
+Success!
+
+type error: cannot assign a char to integer
+
+
+return code: 1
+
+
+===[bad10.bminor Input]===
+/* Cannot assign an array-of-arrays to an array. */
+
+x:array [5] integer;
+y:array [5] array [5] integer;
+
+main:function void () =
+{
+	y = x;
+}
+
+===[bad10.bminor Output]===
+TEST NOT PASSED
+
+y resolves to global y
+x resolves to global x
+
+
+return code: 0
+
+
+===[bad2.bminor Input]===
+/* Cannot use a function without declaring it. */
+
+x: integer = 5;
+y: integer = 10;
+
+main: function void ()=
+{
+	x:integer = y * 10 + 15 - test();
+}
+
+test: function char () =
+{
+	return 'a';
+}
+	
+
+
+===[bad2.bminor Output]===
+Success!
+
+y resolves to global y
+resolve error: test is not defined
+
+
+return code: 1
+
+
+===[bad3.bminor Input]===
+/* Cannot use a variable x that is not defined in the current scope. */
+
+y: integer = 10;
+
+main: function void ()=
+{
+	y: integer = 10;
+	{
+		
+		y: integer = 10;
+		{
+			
+			x: integer = 5;
+			y: integer = 10;
+		}
+		y = x + y;
+	}
+}
+	
+
+
+===[bad3.bminor Output]===
+Success!
+
+y resolves to local 0
+resolve error: x is not defined
+y resolves to local 0
+
+
+return code: 1
+
+
+===[bad4.bminor Input]===
+/* Type of return statement must match return type of function. */
+
+main: function integer ()=
+{
+	return 'c';
+}
+
+===[bad4.bminor Output]===
+Success!
+
+type error: cannot return a char ('c') in a function that returns integer
+
+
+return code: 1
+
+
+===[bad5.bminor Input]===
+/* Check for invalid type inside of boolean expression. */
+
+y:integer = 10;
+
+main: function void () =
+{
+	if(y > 5 && 'a' || true)
+	{
+		print "ok";
+	}
+}
+	
+
+
+===[bad5.bminor Output]===
+Success!
+
+y resolves to global y
+type error: cannot perform a logical AND of a boolean (y>5)
+type error: cannot perform a logical AND of a boolean (y>5) and a char ('a')
+type error: cannot perform a logical OR of a boolean (y>5&&'a')
+
+
+return code: 1
+
+
+===[bad6.bminor Input]===
+/* Function definitions must match prior prototypes. */
+
+test1: function integer (a:integer, b:integer);
+test2: function boolean (a:integer, b:integer);
+test3: function string (a:integer);
+
+main: function void () =
+{
+	str: string = "hi";
+}
+
+/* Parameter type differs from prototype. */
+
+test3: function string (a:boolean) =
+{
+	return "hello!";
+}
+
+/* Return type differs from prototype. */
+
+test2: function integer (a:integer, b:integer) =
+{ 
+	return a + b;
+}
+
+
+===[bad6.bminor Output]===
+TEST NOT PASSED
+
+a resolves to param 0
+b resolves to param 1
+
+
+return code: 0
+
+
+===[bad7.bminor Input]===
+/* Function arguments must match formal parameter types. */
+
+test1:function integer (a:integer, b:integer);
+test2:function boolean (a:integer, b:integer);
+
+main: function void () =
+{
+	x:integer = test2(5, 6);
+	test2(5,6);
+	print test2(11);
+}
+
+test2: function boolean (a:integer, b:integer) =
+{
+	return a==b;
+}
+
+===[bad7.bminor Output]===
+Success!
+
+test2 resolves to global test2
+test2 resolves to global test2
+test2 resolves to global test2
+a resolves to param 0
+b resolves to param 1
+type error: cannot assign a boolean to integer
+
+
+return code: 1
+
+
+===[bad8.bminor Input]===
+/* Cannot assign a scalar value to an array. */
+
+x:array [5] integer = {1,2,3,4,5};
+
+main:function void () =
+{
+	x = 4;
+}
+
+===[bad8.bminor Output]===
+TEST NOT PASSED
+
+x resolves to global x
+
+
+return code: 0
+
+
+===[bad9.bminor Input]===
+/* Cannot index an array with a boolean. */
+
+x:array [5] integer = {1,2,3,4,5};
+
+main: function void () =
+{
+	x[true] = intFxn();
+}
+
+intFxn: function integer ()=
+{
+	return 3;
+}
+
+===[bad9.bminor Output]===
+Success!
+
+x resolves to global x
+resolve error: intFxn is not defined
+
+
+return code: 1
+
+
+===== SUMMARIZED TYPECHECKER RESULTS =====
+{
+  "student_tests": {
+    "Good": {
+      "correct": 10,
+      "incorrect": 0
+    },
+    "Bad": {
+      "correct": 10,
+      "incorrect": 0
+    }
+  },
+  "hidden_tests": {
+    "Good": {
+      "correct": 6,
+      "incorrect": 6
+    },
+    "Bad": {
+      "correct": 10,
+      "incorrect": 1
+    }
+  },
+  "common_tests": {
+    "Good": {
+      "correct": 10,
+      "incorrect": 0
+    },
+    "Bad": {
+      "correct": 7,
+      "incorrect": 3
+    }
+  }
+}
