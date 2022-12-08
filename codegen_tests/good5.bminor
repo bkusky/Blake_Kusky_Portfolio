@@ -1,0 +1,9 @@
+// division
+
+main: function integer () = {
+    t: integer = 2;
+    i: integer = 16 / t;
+
+    print i, "\n";
+    return 0;
+}

@@ -405,8 +405,8 @@ literal	: TOKEN_NUMBER
 
 literal_list	: literal_comma
 					{ $$ = $1; }
-				/* |  epsilon 
-					{ $$ = NULL; } */
+				|  
+					{ $$ = NULL; }
 				/* | multi_array TOKEN_COMMA multi_array  
 					{ 
 						$1->array_multi_next = $3;
@@ -417,14 +417,13 @@ literal_list	: literal_comma
 literal_comma	: literal TOKEN_COMMA literal_comma
 					{ 
 						$1->next = $3;
-						/* $1->kind = EXPR_ARRAY_DEF; */
 						$$ = $1;
 					}
 				| literal
 					{ $$ = $1; }
 				| multi_array multi_array_list
 					{ 
-						$1->array_multi_next = $2;
+						$1->next = $2;
 						$$ = $1; 
 					}
 				;

@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <errno.h>
 
 
 extern FILE *yyin;
@@ -20,11 +21,16 @@ bool run_parse = false;
 bool run_print = false;
 bool run_resolve = false;
 bool run_typecheck = false;
+bool run_codegen = false;
+
+const char *outfile_name;
+const char *in_file_name;
+FILE *outfile;
 
 int main(int argc, char **argv) {
 	// read input
 	// check args
-	if (argc != 3) {
+	if (argc < 3 || argc > 4) {
 		printf("incorrect number of arguments\n");
 		usage();
 		exit(1);
@@ -41,6 +47,22 @@ int main(int argc, char **argv) {
 		run_resolve = true;
 	} else if (!strcmp(argv[1], "-typecheck")) {
 		run_typecheck = true;
+	} else if (!strcmp(argv[1], "-codegen")) {
+		run_codegen = true;
+		if (argc != 4) {
+			printf("incorrect arguments for codegen\n");
+			usage();
+			exit(1);
+		}
+		in_file_name = argv[2];
+		outfile_name = argv[3];
+
+		outfile = fopen(outfile_name, "w");
+
+		if (!outfile) {
+			printf("error: %s\n", strerror(errno));
+			exit(1);
+		}
 	} else {
 		usage(1);
 		exit(1);
@@ -90,6 +112,15 @@ int main(int argc, char **argv) {
 
 		// error
 		if (typecheck_result < 0) {
+			exit(1);
+		}
+	}
+
+	if (run_codegen) {
+		int codegen_result = codegen_execute();
+
+		// error
+		if (codegen_result < 0) {
 			exit(1);
 		}
 	}

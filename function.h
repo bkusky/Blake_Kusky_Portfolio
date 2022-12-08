@@ -12,6 +12,7 @@ int print_execute();
 void indent_print(int indent);
 int resolve_execute();
 int typecheck_execute();
+int codegen_execute();
 
 
 #endif

@@ -1,0 +1,10 @@
+// printing integers
+
+i: integer = 0;
+
+main: function integer () = {
+    j: integer = 1;
+
+    print i, j, "\n";
+    return 0;
+}

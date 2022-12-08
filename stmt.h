@@ -55,4 +55,10 @@ void stmt_typecheck_print(struct stmt *s);
 void stmt_typecheck_return(struct stmt *s);
 void stmt_typecheck_if_else(struct stmt *s);
 
+void stmt_codegen(struct stmt *s);
+void stmt_codegen_return(struct stmt *s);
+void stmt_codegen_print(struct stmt *s);
+void stmt_codegen_for(struct stmt *s);
+void stmt_codegen_if_else(struct stmt *s);
+
 #endif

@@ -52,6 +52,8 @@ struct expr {
 	struct expr *array_lookup;
 	struct expr *array_multi_next;
 	struct symbol *symbol;
+
+	int reg;
 };
 
 struct expr * expr_create( expr_t kind, struct expr *left, struct expr *right, struct expr *next );
@@ -77,4 +79,7 @@ void expr_print( struct expr *e );
 
 void expr_resolve(struct expr *e);
 struct type *expr_typecheck(struct expr *e);
+
+void expr_codegen(struct expr *e);
+void expr_codegen_function_call(struct expr *e);
 #endif

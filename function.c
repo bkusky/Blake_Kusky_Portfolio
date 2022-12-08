@@ -5,6 +5,7 @@
 #include "tokens.h"
 #include "decl.h"
 #include "scope.h"
+#include "scratch.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -13,17 +14,24 @@ extern int yylex();
 extern char *yytext;
 extern int yyleng;
 extern struct decl *ast;
+extern FILE *outfile;
+extern char *in_file_name;
 
 int typecheck_failure = 0;
+int print_rsv = 1;
 
 void usage() {
-	printf("bminor <option> <sourcefile>\n");
-	printf("options:\n");
-	printf("\t-scan:		scan <sourcefile>\n");
-	printf("\t-parse:		scan --> parse <sourcefile>\n");
-	printf("\t-print:		scan --> parse --> print <sourcefile>\n");
-	printf("\t-resolve: 	scan --> parse --> resolve <sourcefile>\n");
-	printf("\t-typecheck:	scan --> parse --> resolve --> typecheck <sourcefile>\n");
+	printf("Usage:\n");
+	printf("   $ bminor <option> <sourcefile>\n");
+	printf("\toptions:\n");
+	printf("\t\t-scan:		<sourcefile>: scan\n");
+	printf("\t\t-parse:		<sourcefile>: scan --> parse\n");
+	printf("\t\t-print:		<sourcefile>: scan --> parse --> print\n");
+	printf("\t\t-resolve: 	<sourcefile>: scan --> parse --> resolve\n");
+	printf("\t\t-typecheck:	<sourcefile>: scan --> parse --> resolve --> typecheck\n\n");
+	printf("   $ bminor <option> <sourcefile> <outfile>\n");
+	printf("\toption:\n");
+	printf("\t\t-codegen:	<sourcefile>: scan --> parse --> resolve --> typecheck --> codegen --> <outfile>\n");
 }
 
 void scan_execute() {
@@ -312,7 +320,7 @@ int typecheck_execute() {
 		printf("Parse error: parse failed\n");
 		return -1;
 	}	
-	
+	print_rsv = 1;
 	/* ++++ resolve ++++ */
 	// check ast 
 	if(!ast) {
@@ -346,6 +354,50 @@ int typecheck_execute() {
 
 	return 0;
 
+}
+
+int codegen_execute() {
+	/* ++++ parse ++++ */
+	int res = yyparse();
+	if (res != 0) {
+		printf("Parse error: parse failed\n");
+		return -1;
+	}	
+	/* ++++ resolve ++++ */
+	// check ast 
+	if(!ast) {
+		printf("invalid AST\n");
+		return -1;
+	}
+	print_rsv = 0;
+	// enter global scope
+	scope_enter();
+	decl_resolve(ast, 0); 
+	// resolve
+	// leave global scope
+	scope_exit();
+	/* ++++ typecheck ++++ */
+	// check that resolution worked
+	if (typecheck_failure) {
+		return -1;
+	}
+	// run typecheck
+	decl_typecheck(ast);
+	// check that typecheck passed
+	if (typecheck_failure) {
+		return -1;
+	}
+	/* ++++ codegen ++++ */
+	// start asm
+	fprintf(outfile, ".file \"%s\"\n", in_file_name);
+	// create scratch registers
+	scratch_init();
+	// data directive
+	fprintf(outfile, ".data\n");
+	decl_global_codegen(ast);
+	fprintf(outfile, ".text\n");
+	decl_codegen(ast);
+	return 0;
 }
 
 

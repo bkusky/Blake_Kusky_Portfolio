@@ -1,12 +1,16 @@
 #include "decl.h"
 #include "function.h"
 #include "scope.h"
+#include "scratch.h"
+#include "label.h"
 
 extern int typecheck_failure;
+extern FILE *outfile;
 
 // keep track of the current function type to use to typechecking
 struct type *current_function_type;
 char *current_function_name;
+int num_curr_decls;
 
 struct decl * decl_create( char *name, struct type *type, struct type *type_params, struct expr *value, struct stmt *code, struct decl *next ) {
 	struct decl *d = malloc(sizeof(struct decl));
@@ -82,8 +86,8 @@ void decl_resolve(struct decl *d, int which) {
 
 	if (d->code) {
 		scope_enter();
-		param_list_resolve(d->type->params);
-		stmt_resolve(d->code, 0, 1);
+		int w = param_list_resolve(d->type->params);
+		stmt_resolve(d->code, w, 1);
 		scope_exit();
 	} else if (!d->code) { // function prototype
 
@@ -162,3 +166,149 @@ void decl_typecheck(struct decl *d) {
 
 	decl_typecheck(d->next);
 }
+
+void decl_global_codegen(struct decl *d) {
+	if (!d) return;
+
+	// variable declaration
+	if (d->value) {
+		switch(d->symbol->type->kind) {
+			case TYPE_INTEGER:
+				fprintf(outfile, "\t%s: .quad %d\n", d->symbol->name, d->value->literal_value);
+				break;
+			case TYPE_STRING:
+				fprintf(outfile, "\t%s: .string %s\n", d->symbol->name, d->value->string_literal);
+				break;
+			case TYPE_BOOLEAN:
+				fprintf(outfile, "\t%s: .quad %d\n", d->symbol->name, d->value->literal_value);
+				break;
+			case TYPE_CHARACTER:;
+				char *c = strdup(d->value->char_literal);
+				int l = strlen(c);
+
+				char res;
+				if (l == 3) {
+					res = c[1];
+				} else {
+					char t = c[2];
+					switch (t) {
+						case 'n':
+							res = '\n';
+							break;
+						case '0':
+							res = '\0';
+						default:
+							res = c[2];
+							break;
+					}
+				}
+				fprintf(outfile, "\t%s: .quad %d\n", d->symbol->name, res);
+				break;
+		}
+	}
+
+	decl_global_codegen(d->next);
+}
+
+void decl_codegen(struct decl *d) {
+	if (!d) return;
+
+	if (d->type->kind == TYPE_FUNCTION) {
+		if (d->code) { // function definition
+			num_curr_decls = 0;
+			decl_count(d->code->body);
+			// printf("num decls = %d\n", num_curr_decls);
+			// name 
+			fprintf(outfile, ".globl %s\n%s:\n", d->name, d->name);
+			
+			/* ++++ preamble ++++ */
+			// save rbp and update new rbp
+			fprintf(outfile, "\tpushq %%rbp\n\tmovq %%rsp, %%rbp\n");
+
+			// arguments
+			param_list_codegen(d->type->params);
+
+			// make stack space for local variables
+			fprintf(outfile, "\tsubq $%d, %%rsp\n", num_curr_decls * 8);
+
+			// callee save registers
+			fprintf(outfile, "\tpushq %%rbx\n\tpushq %%r12\n\tpushq %%r13\n\tpushq %%r14\n\tpushq %%r15\n");
+
+			current_function_name = d->name;	
+			// body of the function
+			stmt_codegen(d->code);
+
+			/* ++++ epilogue ++++ */
+			fprintf(outfile, ".%s_epilogue:\n", current_function_name);
+
+			// restore callee save registers
+			fprintf(outfile, "\tpopq %%r15\n\tpopq %%r14\n\tpopq %%r13\n\tpopq %%r12\n\tpopq %%rbx\n");
+
+			// restore stack pointer
+			fprintf(outfile, "\tmovq %%rbp, %%rsp\n");
+
+			// restore old base pointer and return
+			fprintf(outfile, "\tpopq %%rbp\n\tret\n");
+
+		}
+	} else if (d->symbol->kind == SYMBOL_LOCAL) { // local variable declarations	
+		
+		if (d->value) { // evaluate expression
+			expr_codegen(d->value);	
+
+			// put result on stack
+			fprintf(outfile, "\tmovq %s, %s\n", scratch_name(d->value->reg), symbol_codegen(d->symbol));
+
+			// free reg
+			scratch_free(d->value->reg);
+		} else {
+			// blank
+			
+			switch (d->type->kind) {
+				case TYPE_INTEGER:
+					fprintf(outfile, "\tmovq $0, %s\n", symbol_codegen(d->symbol));
+					break;
+				case TYPE_BOOLEAN:
+					fprintf(outfile, "\tmovq $0, %s\n", symbol_codegen(d->symbol));
+					break;
+				case TYPE_CHARACTER:
+					fprintf(outfile, "\tmovq $0, %s\n", symbol_codegen(d->symbol));
+					break;
+				case TYPE_STRING:;
+					int str_label = label_create();
+					int str_reg = scratch_alloc();
+					fprintf(outfile, ".data\n%s:\n\t.string \"\"\n.text\n\tleaq %s, %s\n", label_name(str_label), label_name(str_label), scratch_name(str_reg));
+					fprintf(outfile, "\tmovq %s, %s\n", scratch_name(str_reg), symbol_codegen(d->symbol));
+					scratch_free(str_reg);
+					break;
+			}
+		}	
+	}
+
+	decl_codegen(d->next);
+}
+
+
+void decl_count(struct stmt *s) {
+	if (!s) return;
+
+	switch(s->kind) {
+		case STMT_DECL:
+			num_curr_decls++;
+			break;
+		case STMT_FOR:
+			decl_count(s->body);
+			break;
+		case STMT_IF_ELSE:
+			decl_count(s->body);
+			decl_count(s->else_body);
+			break;
+		case STMT_BLOCK:
+			decl_count(s->body);
+			break;
+	}
+
+	decl_count(s->next);
+}
+
+
