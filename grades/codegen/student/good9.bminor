@@ -1,0 +1,10 @@
+// printing strings
+
+str: string = "this is a string. ";
+
+main: function integer () = {
+    str2: string = "this is also a string.\n";
+
+    print str, str2;
+    return 0;
+}

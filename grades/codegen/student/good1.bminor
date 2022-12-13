@@ -1,0 +1,5 @@
+// basic working program
+
+main: function integer () = {
+	return 0;
+}
