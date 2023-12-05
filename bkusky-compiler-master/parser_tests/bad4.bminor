@@ -1,0 +1,10 @@
+// bad expression
+
+
+main: function integer ( argc: integer, argv: array [] string ) = {
+		
+
+	y: integer = 123+;
+
+
+}

@@ -1,0 +1,16 @@
+printarray: function void ( a: array [] integer, size: integer ) = {
+	i: integer;
+	for( i=0;i<size;i++) {
+		print a[i], "\n";
+	}
+}
+
+puts: function void ( s: string );
+
+main: function integer () = {
+	puts("hello world");
+}
+
+main: function integer ( argc: integer, argv: array [] string ) = {
+        puts("hello world");
+}

@@ -1,0 +1,15 @@
+// loops cont.
+
+main: function integer () = {
+    i: integer = 0;
+
+    for (;i<10;i++) {
+        print i, '\n';
+    }
+
+    for (i=0;;i++) {
+        if (i == 10) {
+            return 0;
+        }
+    }
+}

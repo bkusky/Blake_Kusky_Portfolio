@@ -1,0 +1,6 @@
+// scan error
+
+#
+main: function integer ( argc: integer, argv: array [] string ) = {
+	// something
+}

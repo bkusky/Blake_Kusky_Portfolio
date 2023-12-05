@@ -1,0 +1,25 @@
+// use of auto with other things
+
+compute1: function auto (x: integer, y: integer) = {
+    return x^2 + y^2;
+}
+
+compute2: function auto (x: integer, y: integer) = {
+    return x^2 - y^2;
+}
+
+main: function void () = {
+    i: integer = 10;
+    j: integer = 11;
+
+    a: auto;
+    b: auto;
+    c: auto;
+
+    a = i + j;
+    b = i + j;
+    c = j;
+
+
+}
+

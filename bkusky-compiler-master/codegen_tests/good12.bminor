@@ -1,0 +1,10 @@
+// exponents
+
+main: function integer () = {
+    answer: integer;
+
+    answer = 5^2;
+    print answer, '\n';
+
+    return 0;
+}

@@ -1,0 +1,7 @@
+// return error
+
+f: function boolean (t: char) = {
+    x: integer = 1;
+
+    return x;
+}

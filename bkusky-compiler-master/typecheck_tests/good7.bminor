@@ -1,0 +1,17 @@
+// if else
+
+get_temp: function integer () = {
+    return 70;
+}
+
+main: function void () = {
+    temp: integer = get_temp();
+    
+    if( temp>100 ) {
+        print "It's really hot!\n";
+    } else if( temp>70 ) {
+        print "It's pretty warm.\n";
+    } else {
+        print "It's not too bad.\n";
+    }
+}

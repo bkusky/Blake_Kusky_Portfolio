@@ -1,0 +1,15 @@
+// if
+
+main: function integer () = {
+    
+    a: integer = 10;
+    b: integer = 9;
+
+    if (a > b) {
+        print "a < b\n";
+    } else {
+        print "nooo!\n";
+    }
+
+    return 0;
+}

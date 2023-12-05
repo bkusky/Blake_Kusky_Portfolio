@@ -1,0 +1,14 @@
+// auto with function returns
+// f should be of type integer
+
+f: function auto (x: integer) = {
+
+    return x;
+}
+
+main: function void () = {
+    result: integer;
+
+    result = f(10);
+
+}

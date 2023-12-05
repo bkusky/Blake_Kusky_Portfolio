@@ -1,0 +1,9 @@
+
+c1: char = 'H';
+
+main: function integer () = {
+    c2: char = 'i';
+
+    print c1, c2, ' ', '\n';
+    return 0;
+}

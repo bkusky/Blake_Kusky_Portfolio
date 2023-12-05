@@ -1,0 +1,21 @@
+// some edge cases
+
+"still a str\n still a str"
+"anything in a string goes !@#$%^&*()_+-="
+
+_ident_name
+ident7ident
+
+
+" "
+"    "
+/* "  string in comment " */
+" /* comment in string */ "
+// " string in comment "
+" // comment in string "
+
+/* the ternary */
+:
+?
+
+

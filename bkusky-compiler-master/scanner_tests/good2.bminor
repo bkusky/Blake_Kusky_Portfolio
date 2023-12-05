@@ -1,0 +1,11 @@
+// strings
+
+""
+mystr: string;
+mystr: string = "this is a string"
+mystr: string = "this is a string too"
+mystr: string = "ttttttttttthhhhhhhiiiiiiiissssssss isssssssss aaaaaaaa sssssttttttrrrrrriiiiinnnnnnggggggg"
+
+"adsfkladsf"
+""
+""""

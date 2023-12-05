@@ -1,0 +1,11 @@
+// multiplication
+
+x: integer = 10;
+
+main: function integer () = {
+    y: integer = x * 11;
+   
+    print y, "\n";
+
+    return 0;
+}

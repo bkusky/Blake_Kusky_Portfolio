@@ -1,0 +1,15 @@
+// variable scope error
+
+var: integer = 2;
+
+main: function void (argc: integer) = {
+
+    print "inner_var does not exist within this scope";
+
+    {
+        inner_var: integer = 1;
+    }
+
+    result: integer = inner_var + var;
+
+}

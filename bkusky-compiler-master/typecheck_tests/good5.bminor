@@ -1,0 +1,11 @@
+// prototype testing
+
+prot: function integer (x: integer);
+
+main: function void () = {
+    print "hi";
+}
+
+prot: function integer (x: integer) = {
+    return x+x;
+}

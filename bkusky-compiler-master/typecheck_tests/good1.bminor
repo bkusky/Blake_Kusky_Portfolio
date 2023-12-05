@@ -1,0 +1,15 @@
+// basic declarations and assignments
+
+n: integer = 0;
+
+main: function integer () = {
+
+    x: integer = 1;
+    y: char = 'a';
+    z: boolean;
+
+    x = x + n;
+
+    print y;
+
+}

@@ -1,0 +1,14 @@
+// if cont.
+
+main: function integer () = {
+    t: char = 'y';
+    f: char = 'y';
+
+    if (f == t) {
+        print t, " and ", f, " are equal\n";
+    } else {
+        print "they are not equal\n"; 
+    }
+
+    return 0;
+}

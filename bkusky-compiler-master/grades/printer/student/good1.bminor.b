@@ -1,0 +1,3 @@
+a: array [5] integer;
+x: array [5] array [10] array [12] array [14] array [13] array [100] array [1234] array [1000000] string;
+a: array [5] integer = {0};

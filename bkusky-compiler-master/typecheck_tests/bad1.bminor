@@ -1,0 +1,9 @@
+// no declaration of y
+
+main: function void ( ) = {
+
+    z: integer = 1;
+
+    z = y + 1;
+    
+}

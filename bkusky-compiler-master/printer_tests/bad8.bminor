@@ -1,0 +1,13 @@
+// bad loop
+
+main: function integer ( argc: integer, argv: array [] string ) = {
+	for(i=0,i<10,j<10;i++) {
+		/* 
+
+			asd;lfkj a;dkfj;askdfj ;a;odjad
+			adlkjfhaldfa
+			fak;lsdjf;adf
+			asldfkj
+		*/
+	}
+}

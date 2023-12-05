@@ -1,0 +1,10 @@
+// boolean print
+
+b: boolean = true;
+
+main: function integer () = {
+    b1: boolean = false;
+
+    print b, " is true and ", b1, " is false\n";
+    return 0;
+}
