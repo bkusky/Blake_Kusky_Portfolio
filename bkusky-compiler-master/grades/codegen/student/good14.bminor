@@ -1,9 +1,0 @@
-// negate
-
-main: function integer () = {
-    x: integer = 1;
-    x = -x;
-
-    print x, '\n';
-    return 0;
-}
