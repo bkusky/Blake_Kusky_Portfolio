@@ -1,0 +1,50 @@
+bkusky
+Program that creates multithreaded Mandelbrot Set visual
+--------------------------------------------------------
+Run "make" in directory with all necessary files:
+	Makefile
+	gfx.c
+	gfx.h
+	fractal.c
+	fractalthread.c
+	fractaltask.c
+
+For fractal.c
+	$ make
+	$ ./fractal
+	>> "wsad" to traverse fractal
+	>> "w" = up
+	>> "s" = down
+	>> "a" = left
+	>> "d" = right
+	>> "i" = zoom in
+	>> "o" = zoom out
+	>> "q" = quit
+
+For fractalthread.c
+	$ make
+	$ ./fractalthread
+--> press "r" to start it
+	>> "1 - 8" to choose thread coumt
+	>> "wsad" to traverse fractal
+	>> "w" = up
+	>> "s" = down
+	>> "a" = left
+	>> "d" = right
+	>> "i" = zoom in
+	>> "o" = zoom out
+	>> "q" = quit
+
+For fractaltask.c
+	$ make
+	$ ./fractalthread
+--> press "r" to start it
+	>> "1 - 8" to choose thread count
+	>> "wsad" to traverse fractal
+	>> "w" = up
+	>> "s" = down
+	>> "a" = left
+	>> "d" = right
+	>> "i" = zoom in
+	>> "o" = zoom out
+	>> "q" = quit
